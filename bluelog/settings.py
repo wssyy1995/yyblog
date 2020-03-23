@@ -48,6 +48,7 @@ class BaseConfig(object):
     BLUELOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
 
+# 下面的配置都继承了BaseConfid配置类，只是修改了不同环境下所需要的配置比如数据库
 class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
 
@@ -62,6 +63,7 @@ class ProductionConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data.db'))
 
 
+# 创建一个配置名称和对应配置类的字典
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,

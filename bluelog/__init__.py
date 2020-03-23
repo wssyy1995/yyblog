@@ -25,11 +25,19 @@ from bluelog.settings import config
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
+# 使用工厂函数创建程序实例，使用这个函数可以在任何地方创建多个程序实例
+# 比如，可以在测试脚本中，在测试脚本中使用测试配置来调用工厂函数，创建一个单独用于测试的程序实例，而不用从某个模块导入程序实例
+# 启动程序:当使用flask run命令启动程序时，flask的自动发现程序实例包含另一种行为：Flask会自动从环境变量FLASK_APP的值定义的模块中寻找名为create_app（）的工程函数，自动调用工厂函数创建程序实例并运行
+
+# 为了支持Flask自动从Flask_App环境变量对应值指向的模块中发现工厂函数，工厂函数中接收的参数必须是设置了默认值的参数
+# current_app：在工厂函数创建完程序实例后，如果要在别的模块中使用程序实例，但却无法导入一个固定的程序实例，可以用current_app来表示当前程序实例的代理对象；
+
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
     app = Flask('bluelog')
+    # 创建程序实例后，使用app.config.from_object ，通过传入config_name作为key值，加载存储在config字典的配置类
     app.config.from_object(config[config_name])
 
     register_logging(app)
@@ -77,6 +85,11 @@ def register_logging(app):
         app.logger.addHandler(file_handler)
 
 
+
+# 初始化拓展，大部分拓展提供了init_app()方法来支持分离拓展的实例化和初始化操作；
+# 1.extensions.py中：先完成拓展类实例化的工作，但是暂时不传入程序实例，先得到这些拓展类的实例化对象
+# 2.在工厂函数中，导入所有拓展对象，并完成程序实例化后，再将这些拓展对象使用init_app()方法 ，传入程序实例，完成初始化
+
 def register_extensions(app):
     bootstrap.init_app(app)
     db.init_app(app)
@@ -88,11 +101,21 @@ def register_extensions(app):
     toolbar.init_app(app)
     migrate.init_app(app, db)
 
+'''
+创建的蓝本对象要发挥作用，需要将蓝本注册到程序实例上；app.register_blueprint必须传入的参数是上面创建的蓝本对象
+url_prefix参数为蓝本下的所有视图url前附加一个前缀
 
+ 蓝本的路由端点： URL规则和视图函数并不是直接映射的，而是通过端点作为中间媒介
+    1.一般默认视图函数名为端点名，但是实现蓝本后，每个路由的URL规则对应的端点不再仅仅是视图函数名，而是"蓝本名.视图函数名" （蓝本名是我们实例化Blueprint时传入的第一个参数），比如blog_bp蓝本蓝本名就是blog ；
+    2.实现了蓝本后怎么调用端点？：要调用admin_bp蓝本下的index端点时，就是"blog.index"
+    3.为什么不直接使用视图函数名？：可以实现蓝本的视图函数命名空间，因为不同的蓝本中可能创建同名的视图函数
+'''
 def register_blueprints(app):
     app.register_blueprint(blog_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+
+
 
 
 def register_shell_context(app):
@@ -100,7 +123,9 @@ def register_shell_context(app):
     def make_shell_context():
         return dict(db=db, Admin=Admin, Post=Post, Category=Category, Comment=Comment)
 
-
+# app.context_processor 模板上下文处理器下的所有函数，在render_template任意一个html页面时，都会自动执行。
+# 并且函数的返回值必须是个dict，dict的key会被当做变量返回到模板中，值为value
+# 可以用来定义一个用于所有页面的全局变量
 def register_template_context(app):
     @app.context_processor
     def make_template_context():
@@ -115,7 +140,7 @@ def register_template_context(app):
             admin=admin, categories=categories,
             links=links, unread_comments=unread_comments)
 
-
+# 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
     @app.errorhandler(400)
     def bad_request(e):

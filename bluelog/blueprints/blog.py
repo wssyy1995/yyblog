@@ -74,6 +74,7 @@ def show_post(post_id):
         if replied_id:
             replied_comment = Comment.query.get_or_404(replied_id)
             comment.replied = replied_comment
+            # 给被回复的用户发送email
             send_new_reply_email(replied_comment)
         db.session.add(comment)
         db.session.commit()
@@ -92,6 +93,7 @@ def reply_comment(comment_id):
     if not comment.post.can_comment:
         flash('Comment is disabled.', 'warning')
         return redirect(url_for('.show_post', post_id=comment.post.id))
+    # 点击reply之后，重定向到带有查询字符串的新url
     return redirect(
         url_for('.show_post', post_id=comment.post_id, reply=comment_id, author=comment.author) + '#comment-form')
 

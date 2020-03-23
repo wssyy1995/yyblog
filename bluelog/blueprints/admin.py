@@ -11,11 +11,14 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from flask_login import login_required, current_user
 from flask_ckeditor import upload_success, upload_fail
 
+
 from bluelog.extensions import db
 from bluelog.forms import SettingForm, PostForm, CategoryForm, LinkForm
 from bluelog.models import Post, Category, Comment, Link
 from bluelog.utils import redirect_back, allowed_file
 
+
+# 实例化蓝本类就获得蓝本对象； 构造方法中第一个参数是蓝本的名称，第二个参数是包或模块的名称
 admin_bp = Blueprint('admin', __name__)
 
 

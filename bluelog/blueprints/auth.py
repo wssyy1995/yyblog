@@ -34,6 +34,8 @@ def login():
             flash('Invalid username or password.', 'warning')
         else:
             flash('No account.', 'warning')
+    print('error happen')
+    print(form.username.errors)
     return render_template('auth/login.html', form=form)
 
 

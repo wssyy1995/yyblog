@@ -3,15 +3,50 @@
 
 {% block title %}Login{% endblock %}
 
+{#{% block content %}#}
+{#    <div class="container h-100">#}
+{#        <div class="row h-100 page-header justify-content-center align-items-center">#}
+{#            <h1>Log in</h1>#}
+{#        </div>#}
+{#        <div class="row h-100 justify-content-center align-items-center">#}
+{#            {{ render_form(form, extra_classes='col-6') }}#}
+{#        </div>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}
+
 {% block content %}
-    <div class="container h-100">
-        <div class="row h-100 page-header justify-content-center align-items-center">
-            <h1>Log in</h1>
-        </div>
-        <div class="row h-100 justify-content-center align-items-center">
-            {{ render_form(form, extra_classes='col-6') }}
-        </div>
-    </div>
+    <form method="post">
+    {{ form.csrf_token }}
+    {{ form.username.label }}<br>
+    {{ form.username }}<br>
+    {% if form.username.errors %}
+        {% for message in form.username.errors %}
+        <small class="error">{{ message }}</small><br>
+        {% endfor %}
+    {% endif %}
+    {{ form.password.label }}<br>
+    {{ form.password }}<br>
+    {% if form.password.errors %}
+        {% for message in form.password.errors %}
+        <small class="error">{{ message }}</small><br>
+        {% endfor %}
+    {% endif %}
+    {{ form.remember }}{{ form.remember.label }}<br>
+    {#当点击submit时，表单发送http post请求（未指定url则向当前url），发送表单数据#}
+    {# WTForms验证机制会对表单实例调用validate()方法，逐个对字段调用字段实例化时定义的validator  #}
+    {#如果某个字段数据验证失败，就把错误消息存储到这个字段的errors属性中，返回的是一个数组#}
+    {{ form.submit }}<br>
+{#  点击submit后的3种错误：（
+    （1）浏览器客户端的检查：DataRequired()DataRequired()会在输出的html代码中添加required属性，浏览器会有内置的错误提示
+     （2）服务器对表单数据调用validator来验证，比如Length(1, 20)，如果不通过，则form.validate_on_submit()为flase，直接不进入if判断；这时候的错误信息是存在对应字段的errors属性里的，返回一个数组
+     （3）form.validate_on_submit() 通过表单的基础验证，然后进入if判断，来进行下一步判断，比如和数据库验证，如果失败则通过flash()传入自定义的错误信息
+
+#}
+
 {% endblock %}
+
+
 
 {% block footer %}{% endblock %}

@@ -36,6 +36,8 @@ def fake_categories(count=10):
     for i in range(count):
         category = Category(name=fake.word())
         db.session.add(category)
+        # 和文章不同，分类的名称不能重复（因为在Categories模型类里设置了name字段参数unique=True）
+        # 如果随机生成的分类名重复了，就会导致数据库出错IntegrityError，这里用except捕获，并进行回滚操作
         try:
             db.session.commit()
         except IntegrityError:
