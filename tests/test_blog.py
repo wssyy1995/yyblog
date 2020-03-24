@@ -7,8 +7,8 @@
 """
 from flask import url_for
 
-from bluelog.models import Post, Category, Link, Comment
-from bluelog.extensions import db
+from yayanblog.models import Post, Category, Link, Comment
+from yayanblog.extensions import db
 
 from tests.base import BaseTestCase
 

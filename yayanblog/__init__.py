@@ -15,12 +15,12 @@ from flask_login import current_user
 from flask_sqlalchemy import get_debug_queries
 from flask_wtf.csrf import CSRFError
 
-from bluelog.blueprints.admin import admin_bp
-from bluelog.blueprints.auth import auth_bp
-from bluelog.blueprints.blog import blog_bp
-from bluelog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar, migrate
-from bluelog.models import Admin, Post, Category, Comment, Link
-from bluelog.settings import config
+from yayanblog.blueprints.admin import admin_bp
+from yayanblog.blueprints.auth import auth_bp
+from yayanblog.blueprints.blog import blog_bp
+from yayanblog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar, migrate
+from yayanblog.models import Admin, Post, Category, Comment, Link
+from yayanblog.settings import config
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -36,7 +36,7 @@ def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
-    app = Flask('bluelog')
+    app = Flask('yayanblog')
     # 创建程序实例后，使用app.config.from_object ，通过传入config_name作为key值，加载存储在config字典的配置类
     app.config.from_object(config[config_name])
 
@@ -66,7 +66,7 @@ def register_logging(app):
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/bluelog.log'),
+    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/yayanblog.log'),
                                        maxBytes=10 * 1024 * 1024, backupCount=10)
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.INFO)
@@ -75,7 +75,7 @@ def register_logging(app):
         mailhost=app.config['MAIL_SERVER'],
         fromaddr=app.config['MAIL_USERNAME'],
         toaddrs=['ADMIN_EMAIL'],
-        subject='Bluelog Application Error',
+        subject='yayanblog Application Error',
         credentials=(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']))
     mail_handler.setLevel(logging.ERROR)
     mail_handler.setFormatter(request_formatter)
@@ -176,7 +176,7 @@ def register_commands(app):
     @click.option('--password', prompt=True, hide_input=True,
                   confirmation_prompt=True, help='The password used to login.')
     def init(username, password):
-        """Building Bluelog, just for you."""
+        """Building yayanblog, just for you."""
 
         click.echo('Initializing the database...')
         db.create_all()
@@ -190,7 +190,7 @@ def register_commands(app):
             click.echo('Creating the temporary administrator account...')
             admin = Admin(
                 username=username,
-                blog_title='Bluelog',
+                blog_title='yayanblog',
                 blog_sub_title="No, I'm the real thing.",
                 name='Admin',
                 about='Anything about you.'
@@ -213,7 +213,7 @@ def register_commands(app):
     @click.option('--comment', default=500, help='Quantity of comments, default is 500.')
     def forge(category, post, comment):
         """Generate fake data."""
-        from bluelog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
+        from yayanblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
 
         db.drop_all()
         db.create_all()
@@ -240,7 +240,7 @@ def register_request_handlers(app):
     @app.after_request
     def query_profiler(response):
         for q in get_debug_queries():
-            if q.duration >= app.config['BLUELOG_SLOW_QUERY_THRESHOLD']:
+            if q.duration >= app.config['YAYANBLOG_SLOW_QUERY_THRESHOLD']:
                 app.logger.warning(
                     'Slow query: Duration: %fs\n Context: %s\nQuery: %s\n '
                     % (q.duration, q.context, q.statement)

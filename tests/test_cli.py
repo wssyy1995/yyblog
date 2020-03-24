@@ -5,8 +5,8 @@
     :copyright: © 2018 Grey Li <withlihui@gmail.com>
     :license: MIT, see LICENSE for more details.
 """
-from bluelog.models import Admin, Post, Category, Comment
-from bluelog.extensions import db
+from yayanblog.models import Admin, Post, Category, Comment
+from yayanblog.extensions import db
 from tests.base import BaseTestCase
 
 

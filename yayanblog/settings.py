@@ -34,18 +34,18 @@ class BaseConfig(object):
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = ('Bluelog Admin', MAIL_USERNAME)
+    MAIL_DEFAULT_SENDER = ('yayanblog Admin', MAIL_USERNAME)
 
-    BLUELOG_EMAIL = os.getenv('BLUELOG_EMAIL')
-    BLUELOG_POST_PER_PAGE = 10
-    BLUELOG_MANAGE_POST_PER_PAGE = 15
-    BLUELOG_COMMENT_PER_PAGE = 15
+    YAYANBLOG_EMAIL = os.getenv('yayanblog_EMAIL')
+    YAYANBLOG_POST_PER_PAGE = 10
+    YAYANBLOG_MANAGE_POST_PER_PAGE = 15
+    YAYANBLOG_COMMENT_PER_PAGE = 15
     # ('theme name', 'display name')
-    BLUELOG_THEMES = {'perfect_blue': 'Perfect Blue', 'black_swan': 'Black Swan'}
-    BLUELOG_SLOW_QUERY_THRESHOLD = 1
+    YAYANBLOG_THEMES = {'perfect_blue': 'Perfect Blue', 'black_swan': 'Black Swan'}
+    YAYANBLOG_SLOW_QUERY_THRESHOLD = 1
 
-    BLUELOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
-    BLUELOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
+    YAYANBLOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
+    YAYANBLOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
 
 # 下面的配置都继承了BaseConfid配置类，只是修改了不同环境下所需要的配置比如数据库

@@ -1,2 +1,2 @@
-FLASK_APP=bluelog
+FLASK_APP=yayanblog
 FLASK_ENV=development

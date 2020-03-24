@@ -12,10 +12,10 @@ from flask_login import login_required, current_user
 from flask_ckeditor import upload_success, upload_fail
 
 
-from bluelog.extensions import db
-from bluelog.forms import SettingForm, PostForm, CategoryForm, LinkForm
-from bluelog.models import Post, Category, Comment, Link
-from bluelog.utils import redirect_back, allowed_file
+from yayanblog.extensions import db
+from yayanblog.forms import SettingForm, PostForm, CategoryForm, LinkForm
+from yayanblog.models import Post, Category, Comment, Link
+from yayanblog.utils import redirect_back, allowed_file
 
 
 # 实例化蓝本类就获得蓝本对象； 构造方法中第一个参数是蓝本的名称，第二个参数是包或模块的名称
@@ -46,7 +46,7 @@ def settings():
 def manage_post():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['BLUELOG_MANAGE_POST_PER_PAGE'])
+        page, per_page=current_app.config['yayanblog_MANAGE_POST_PER_PAGE'])
     posts = pagination.items
     return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
@@ -117,7 +117,7 @@ def set_comment(post_id):
 def manage_comment():
     filter_rule = request.args.get('filter', 'all')  # 'all', 'unreviewed', 'admin'
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['BLUELOG_COMMENT_PER_PAGE']
+    per_page = current_app.config['YAYANBLOG_COMMENT_PER_PAGE']
     if filter_rule == 'unread':
         filtered_comments = Comment.query.filter_by(reviewed=False)
     elif filter_rule == 'admin':
@@ -249,7 +249,7 @@ def delete_link(link_id):
 
 @admin_bp.route('/uploads/<path:filename>')
 def get_image(filename):
-    return send_from_directory(current_app.config['BLUELOG_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['yayanblog_UPLOAD_PATH'], filename)
 
 
 @admin_bp.route('/upload', methods=['POST'])
@@ -257,6 +257,6 @@ def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
         return upload_fail('Image only!')
-    f.save(os.path.join(current_app.config['BLUELOG_UPLOAD_PATH'], f.filename))
+    f.save(os.path.join(current_app.config['yayanblog_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)

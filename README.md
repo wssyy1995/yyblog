@@ -1,19 +1,19 @@
-# Bluelog
+# yayanblog
 
 *A blue blog.*
 
 > Example application for *[Python Web Development with Flask](http://helloflask.com/en/book)* (《[Flask Web 开发实战](http://helloflask.com/book)》).
 
-Demo: http://bluelog.helloflask.com
+Demo: http://yayanblog.helloflask.com
 
-![Screenshot](http://helloflask.com/screenshots/bluelog.png)
+![Screenshot](http://helloflask.com/screenshots/yayanblog.png)
 
 ## Installation
 
 clone:
 ```
-$ git clone https://github.com/greyli/bluelog.git
-$ cd bluelog
+$ git clone https://github.com/greyli/yayanblog.git
+$ cd yayanblog
 ```
 create & activate virtual env then install dependency:
 
