@@ -60,18 +60,18 @@ class CategoryForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    author = StringField('Name', validators=[DataRequired(), Length(1, 16)])
-    email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 254)])
+    author = StringField('Your Name', validators=[DataRequired(), Length(1, 16)])
+    # email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 254)])
     # site可以为空，所以使用optional()验证器确保输入的数据为有效的url
-    site = StringField('Site（optional）', validators=[Optional(), URL(), Length(0, 255)])
+    # site = StringField('Site（optional）', validators=[Optional(), URL(), Length(0, 255)])
     body = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField()
 
 
 class AdminCommentForm(CommentForm):
     author = HiddenField()
-    email = HiddenField()
-    site = HiddenField()
+    # email = HiddenField()
+    # site = HiddenField()
 
 
 class LinkForm(FlaskForm):

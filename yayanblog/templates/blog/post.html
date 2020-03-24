@@ -96,11 +96,11 @@
                                 {%- endif -%}
                                 <p class="mb-1">{{ comment.body }}</p>
                                 <div class="float-right">
-                                    <a class="btn btn-light btn-sm"
+{#                                    <a class="btn btn-light btn-sm"#}
                                         {#点击Reply的行为#}
-                                       href="{{ url_for('.reply_comment', comment_id=comment.id) }}">Reply</a>
+{#                                       href="{{ url_for('.reply_comment', comment_id=comment.id) }}">Reply</a>#}
                                     {% if current_user.is_authenticated %}
-                                        <a class="btn btn-light btn-sm" href="mailto:{{ comment.email }}">Email</a>
+{#                                        <a class="btn btn-light btn-sm" href="mailto:{{ comment.email }}">Email</a>#}
                                         <form class="inline" method="post"
                                               action="{{ url_for('admin.delete_comment', comment_id=comment.id, next=request.full_path) }}">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -155,20 +155,20 @@
                             <small class="error">{{ message }}</small><br>
                             {% endfor %}
                         {% endif %}
-                        {{ form.email.label }}<br>
-                        {{ form.email }}<br>
-                        {% if form.email.errors %}
-                            {% for message in form.email.errors %}
-                            <small class="error">{{ message }}</small><br>
-                            {% endfor %}
-                        {% endif %}
-                        {{ form.site.label }}<br>
-                        {{ form.site }}<br>
-                        {% if form.site.errors %}
-                            {% for message in form.site.errors %}
-                            <small class="error">{{ message }}</small><br>
-                            {% endfor %}
-                        {% endif %}
+{#                        {{ form.email.label }}<br>#}
+{#                        {{ form.email }}<br>#}
+{#                        {% if form.email.errors %}#}
+{#                            {% for message in form.email.errors %}#}
+{#                            <small class="error">{{ message }}</small><br>#}
+{#                            {% endfor %}#}
+{#                        {% endif %}#}
+{#                        {{ form.site.label }}<br>#}
+{#                        {{ form.site }}<br>#}
+{#                        {% if form.site.errors %}#}
+{#                            {% for message in form.site.errors %}#}
+{#                            <small class="error">{{ message }}</small><br>#}
+{#                            {% endfor %}#}
+{#                        {% endif %}#}
                         {{ form.body.label }}<br>
                         {{ form.body }}<br>
                         {% if form.body.errors %}

@@ -53,36 +53,40 @@ def show_post(post_id):
     if current_user.is_authenticated:
         form = AdminCommentForm()
         form.author.data = current_user.name
-        form.email.data = current_app.config['YAYANBLOG_EMAIL']
-        form.site.data = url_for('.index')
+        # form.email.data = current_app.config['YAYANBLOG_EMAIL']
+        # form.site.data = url_for('.index')
         from_admin = True
         reviewed = True
     else:
         form = CommentForm()
         from_admin = False
-        reviewed = False
+        reviewed = True
 
     if form.validate_on_submit():
         author = form.author.data
-        email = form.email.data
-        site = form.site.data
+        # email = form.email.data
+        # site = form.site.data
         body = form.body.data
+        # comment = Comment(
+        #     author=author, email=email, site=site, body=body,
+        #     from_admin=from_admin, post=post, reviewed=reviewed)
         comment = Comment(
-            author=author, email=email, site=site, body=body,
+            author=author, body=body,
             from_admin=from_admin, post=post, reviewed=reviewed)
-        replied_id = request.args.get('reply')
-        if replied_id:
-            replied_comment = Comment.query.get_or_404(replied_id)
-            comment.replied = replied_comment
-            # 给被回复的用户发送email
-            send_new_reply_email(replied_comment)
+        # replied_id = request.args.get('reply')
+        # if replied_id:
+        #     replied_comment = Comment.query.get_or_404(replied_id)
+        #     comment.replied = replied_comment
+        #     给被回复的用户发送email
+        #     send_new_reply_email(replied_comment)
         db.session.add(comment)
         db.session.commit()
-        if current_user.is_authenticated:  # send message based on authentication status
-            flash('Comment published.', 'success')
-        else:
-            flash('Thanks, your comment will be published after reviewed.', 'info')
-            send_new_comment_email(post)  # send notification email to admin
+        flash('Comment published.', 'success')
+        # if current_user.is_authenticated:  # send message based on authentication status
+        #     flash('Comment published.', 'success')
+        # else:
+        #     flash('Thanks, your comment will be published after reviewed.', 'info')
+        #     send_new_comment_email(post)  # send notification email to admin
         return redirect(url_for('.show_post', post_id=post_id))
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
 
