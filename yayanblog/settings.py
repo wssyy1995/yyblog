@@ -29,14 +29,21 @@ class BaseConfig(object):
     CKEDITOR_ENABLE_CSRF = True
     CKEDITOR_FILE_UPLOADER = 'admin.upload_image'
 
-    MAIL_SERVER = os.getenv('MAIL_SERVER')
+
+    # MAIL_SERVER='smtp.126.com'
+    # MAIL_USERNAME='18221091524@126.com'
+    # MAIL_PASSWORD='DYZ1126yyqx1128'
+
+
+
+    MAIL_SERVER = os.getenv('MAIL_SERVER','smtp.126.com')
     MAIL_PORT = 465
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME','18221091524@126.com')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD','DYZ1126yyqx1128')
     MAIL_DEFAULT_SENDER = ('yayanblog Admin', MAIL_USERNAME)
 
-    YAYANBLOG_EMAIL = os.getenv('yayanblog_EMAIL')
+    YAYANBLOG_EMAIL = os.getenv('YAYANBLOG_EMAIL','18221091524@126.com')
     YAYANBLOG_POST_PER_PAGE = 10
     YAYANBLOG_MANAGE_POST_PER_PAGE = 15
     YAYANBLOG_COMMENT_PER_PAGE = 15

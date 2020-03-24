@@ -46,7 +46,7 @@ def settings():
 def manage_post():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['yayanblog_MANAGE_POST_PER_PAGE'])
+        page, per_page=current_app.config['YAYANBLOG_MANAGE_POST_PER_PAGE'])
     posts = pagination.items
     return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
@@ -249,7 +249,7 @@ def delete_link(link_id):
 
 @admin_bp.route('/uploads/<path:filename>')
 def get_image(filename):
-    return send_from_directory(current_app.config['yayanblog_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['YAYANBLOG_UPLOAD_PATH'], filename)
 
 
 @admin_bp.route('/upload', methods=['POST'])
@@ -257,6 +257,6 @@ def upload_image():
     f = request.files.get('upload')
     if not allowed_file(f.filename):
         return upload_fail('Image only!')
-    f.save(os.path.join(current_app.config['yayanblog_UPLOAD_PATH'], f.filename))
+    f.save(os.path.join(current_app.config['YAYANBLOG_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)

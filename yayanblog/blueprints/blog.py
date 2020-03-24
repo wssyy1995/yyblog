@@ -53,7 +53,7 @@ def show_post(post_id):
     if current_user.is_authenticated:
         form = AdminCommentForm()
         form.author.data = current_user.name
-        form.email.data = current_app.config['yayanblog_EMAIL']
+        form.email.data = current_app.config['YAYANBLOG_EMAIL']
         form.site.data = url_for('.index')
         from_admin = True
         reviewed = True
@@ -100,7 +100,7 @@ def reply_comment(comment_id):
 
 @blog_bp.route('/change-theme/<theme_name>')
 def change_theme(theme_name):
-    if theme_name not in current_app.config['yayanblog_THEMES'].keys():
+    if theme_name not in current_app.config['YAYANBLOG_THEMES'].keys():
         abort(404)
 
     response = make_response(redirect_back())

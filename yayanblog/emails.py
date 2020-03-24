@@ -28,7 +28,7 @@ def send_mail(subject, to, html):
 
 def send_new_comment_email(post):
     post_url = url_for('blog.show_post', post_id=post.id, _external=True) + '#comments'
-    send_mail(subject='New comment', to=current_app.config['yayanblog_EMAIL'],
+    send_mail(subject='New comment', to=current_app.config['YAYANBLOG_EMAIL'],
               html='<p>New comment in post <i>%s</i>, click the link below to check:</p>'
                    '<p><a href="%s">%s</a></P>'
                    '<p><small style="color: #868e96">Do not reply this email.</small></p>'
