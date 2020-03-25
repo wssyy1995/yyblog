@@ -19,7 +19,7 @@ from yayanblog.blueprints.admin import admin_bp
 from yayanblog.blueprints.auth import auth_bp
 from yayanblog.blueprints.blog import blog_bp
 from yayanblog.extensions import bootstrap, db, login_manager, csrf, ckeditor, mail, moment, toolbar, migrate
-from yayanblog.models import Admin, Post, Category, Comment, Link
+from yayanblog.models import Admin, Post, Comment
 from yayanblog.settings import config
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -121,7 +121,7 @@ def register_blueprints(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, Admin=Admin, Post=Post, Category=Category, Comment=Comment)
+        return dict(db=db, Admin=Admin, Post=Post,Comment=Comment)
 
 # app.context_processor 模板上下文处理器下的所有函数，在render_template任意一个html页面时，都会自动执行。
 # 并且函数的返回值必须是个dict，dict的key会被当做变量返回到模板中，值为value
@@ -130,15 +130,12 @@ def register_template_context(app):
     @app.context_processor
     def make_template_context():
         admin = Admin.query.first()
-        categories = Category.query.order_by(Category.name).all()
-        links = Link.query.order_by(Link.name).all()
         if current_user.is_authenticated:
             unread_comments = Comment.query.filter_by(reviewed=False).count()
         else:
             unread_comments = None
         return dict(
-            admin=admin, categories=categories,
-            links=links, unread_comments=unread_comments)
+            admin=admin,unread_comments=unread_comments)
 
 # 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
@@ -179,6 +176,7 @@ def register_commands(app):
         """Building yayanblog, just for you."""
 
         click.echo('Initializing the database...')
+        db.drop_all()
         db.create_all()
 
         admin = Admin.query.first()
@@ -198,20 +196,13 @@ def register_commands(app):
             admin.set_password(password)
             db.session.add(admin)
 
-        category = Category.query.first()
-        if category is None:
-            click.echo('Creating the default category...')
-            category = Category(name='Default')
-            db.session.add(category)
-
         db.session.commit()
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--category', default=10, help='Quantity of categories, default is 10.')
-    @click.option('--post', default=50, help='Quantity of posts, default is 50.')
-    @click.option('--comment', default=500, help='Quantity of comments, default is 500.')
-    def forge(category, post, comment):
+    @click.option('--post', default=1, help='Quantity of posts, default is 50.')
+    @click.option('--comment', default=1, help='Quantity of comments, default is 500.')
+    def forge(post, comment):
         """Generate fake data."""
         from yayanblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
 
@@ -221,8 +212,6 @@ def register_commands(app):
         click.echo('Generating the administrator...')
         fake_admin()
 
-        click.echo('Generating %d categories...' % category)
-        fake_categories(category)
 
         click.echo('Generating %d posts...' % post)
         fake_posts(post)
@@ -230,8 +219,6 @@ def register_commands(app):
         click.echo('Generating %d comments...' % comment)
         fake_comments(comment)
 
-        click.echo('Generating links...')
-        fake_links()
 
         click.echo('Done.')
 

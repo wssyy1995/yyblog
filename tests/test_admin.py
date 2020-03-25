@@ -7,7 +7,7 @@
 """
 from flask import url_for
 
-from yayanblog.models import Post, Category, Link, Comment
+from yayanblog.models import Post,Comment
 from yayanblog.extensions import db
 
 from tests.base import BaseTestCase
@@ -19,11 +19,10 @@ class AdminTestCase(BaseTestCase):
         super(AdminTestCase, self).setUp()
         self.login()
 
-        category = Category(name='Default')
-        post = Post(title='Hello', category=category, body='Blah...')
+        post = Post(title='Hello',body='Blah...')
         comment = Comment(body='A comment', post=post, from_admin=True)
-        link = Link(name='GitHub', url='https://github.com/greyli')
-        db.session.add_all([category, post, comment, link])
+
+        db.session.add_all([post, comment])
         db.session.commit()
 
     def test_new_post(self):
@@ -33,7 +32,6 @@ class AdminTestCase(BaseTestCase):
 
         response = self.client.post(url_for('admin.new_post'), data=dict(
             title='Something',
-            category=1,
             body='Hello, world.'
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
@@ -50,7 +48,6 @@ class AdminTestCase(BaseTestCase):
 
         response = self.client.post(url_for('admin.edit_post', post_id=1), data=dict(
             title='Something Edited',
-            category=1,
             body='New post body.'
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
@@ -123,14 +120,10 @@ class AdminTestCase(BaseTestCase):
         data = response.get_data(as_text=True)
         self.assertIn('I am a guest comment.', data)
 
-    def test_new_category(self):
-        response = self.client.get(url_for('admin.new_category'))
-        data = response.get_data(as_text=True)
-        self.assertIn('New Category', data)
 
         response = self.client.post(url_for('admin.new_category'), data=dict(name='Tech'), follow_redirects=True)
         data = response.get_data(as_text=True)
-        self.assertIn('Category created.', data)
+        # self.assertIn('Category created.', data)
         self.assertIn('Tech', data)
 
         response = self.client.post(url_for('admin.new_category'), data=dict(name='Tech'), follow_redirects=True)

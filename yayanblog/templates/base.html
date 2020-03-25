@@ -142,8 +142,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="drop_list" href="{{ url_for('admin.new_post') }}">Post</a></li>
-                            <li><a class="drop_list" href="{{ url_for('admin.new_category') }}">Category</a></li>
-                            <li><a class="drop_list" href="{{ url_for('admin.new_link') }}">Link</a></li>
+
 
                         </ul>
                     </li>
@@ -158,14 +157,12 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="drop_list" href="{{ url_for('admin.manage_post') }}">Post</a></li>
-                            <li><a class="drop_list" href="{{ url_for('admin.manage_category') }}">Category</a></li>
                             <li><a class="drop_list" href="{{ url_for('admin.manage_comment') }}">
                                 Comment
                                 {% if unread_comments %}
                                     <span class="badge badge-success">{{ unread_comments }}</span>
                                 {% endif %}
                             </a></li>
-                            <li><a class="drop_list" href="{{ url_for('admin.manage_link') }}">Link</a></li>
 
 
                         </ul>

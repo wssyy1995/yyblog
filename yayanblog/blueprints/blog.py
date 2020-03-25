@@ -11,7 +11,7 @@ from flask_login import current_user
 from yayanblog.emails import send_new_comment_email, send_new_reply_email
 from yayanblog.extensions import db
 from yayanblog.forms import CommentForm, AdminCommentForm
-from yayanblog.models import Post, Category, Comment
+from yayanblog.models import Post,Comment
 from yayanblog.utils import redirect_back
 
 blog_bp = Blueprint('blog', __name__)
@@ -31,16 +31,6 @@ def about():
     return render_template('blog/about.html')
 
 
-@blog_bp.route('/category/<int:category_id>')
-def show_category(category_id):
-    category = Category.query.get_or_404(category_id)
-    page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['YAYANBLOG_POST_PER_PAGE']
-    pagination = Post.query.with_parent(category).order_by(Post.timestamp.desc()).paginate(page, per_page)
-    posts = pagination.items
-    return render_template('blog/category.html', category=category, pagination=pagination, posts=posts)
-
-
 @blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def show_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -53,8 +43,6 @@ def show_post(post_id):
     if current_user.is_authenticated:
         form = AdminCommentForm()
         form.author.data = current_user.name
-        # form.email.data = current_app.config['YAYANBLOG_EMAIL']
-        # form.site.data = url_for('.index')
         from_admin = True
         reviewed = True
     else:
@@ -90,23 +78,23 @@ def show_post(post_id):
         return redirect(url_for('.show_post', post_id=post_id))
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
 
+#
+# @blog_bp.route('/reply/comment/<int:comment_id>')
+# def reply_comment(comment_id):
+#     comment = Comment.query.get_or_404(comment_id)
+#     if not comment.post.can_comment:
+#         flash('Comment is disabled.', 'warning')
+#         return redirect(url_for('.show_post', post_id=comment.post.id))
+#     # 点击reply之后，重定向到带有查询字符串的新url
+#     return redirect(
+#         url_for('.show_post', post_id=comment.post_id, reply=comment_id, author=comment.author) + '#comment-form')
 
-@blog_bp.route('/reply/comment/<int:comment_id>')
-def reply_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-    if not comment.post.can_comment:
-        flash('Comment is disabled.', 'warning')
-        return redirect(url_for('.show_post', post_id=comment.post.id))
-    # 点击reply之后，重定向到带有查询字符串的新url
-    return redirect(
-        url_for('.show_post', post_id=comment.post_id, reply=comment_id, author=comment.author) + '#comment-form')
 
-
-@blog_bp.route('/change-theme/<theme_name>')
-def change_theme(theme_name):
-    if theme_name not in current_app.config['YAYANBLOG_THEMES'].keys():
-        abort(404)
-
-    response = make_response(redirect_back())
-    response.set_cookie('theme', theme_name, max_age=30 * 24 * 60 * 60)
-    return response
+# @blog_bp.route('/change-theme/<theme_name>')
+# def change_theme(theme_name):
+#     if theme_name not in current_app.config['YAYANBLOG_THEMES'].keys():
+#         abort(404)
+#
+#     response = make_response(redirect_back())
+#     response.set_cookie('theme', theme_name, max_age=30 * 24 * 60 * 60)
+#     return response

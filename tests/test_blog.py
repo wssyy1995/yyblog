@@ -7,7 +7,7 @@
 """
 from flask import url_for
 
-from yayanblog.models import Post, Category, Link, Comment
+from yayanblog.models import Post,Comment
 from yayanblog.extensions import db
 
 from tests.base import BaseTestCase
@@ -19,12 +19,9 @@ class BlogTestCase(BaseTestCase):
         super(BlogTestCase, self).setUp()
         self.login()
 
-        category = Category(name='Default')
-        post = Post(title='Hello Post', category=category, body='Blah...')
+        post = Post(title='Hello Post',body='Blah...')
         comment = Comment(body='A comment', post=post, from_admin=True, reviewed=True)
-        link = Link(name='GitHub', url='https://github.com/greyli')
-
-        db.session.add_all([category, post, comment, link])
+        db.session.add_all([post, comment])
         db.session.commit()
 
     def test_index_page(self):
@@ -59,11 +56,7 @@ class BlogTestCase(BaseTestCase):
         self.assertIn('I am test', data)
         self.assertIn('About', data)
 
-    def test_category_page(self):
-        response = self.client.get(url_for('blog.show_category', category_id=1))
-        data = response.get_data(as_text=True)
-        self.assertIn('Category: Default', data)
-        self.assertIn('Hello Post', data)
+
 
     def test_new_admin_comment(self):
         response = self.client.post(url_for('blog.show_post', post_id=1), data=dict(

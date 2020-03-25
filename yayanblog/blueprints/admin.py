@@ -13,8 +13,8 @@ from flask_ckeditor import upload_success, upload_fail
 
 
 from yayanblog.extensions import db
-from yayanblog.forms import SettingForm, PostForm, CategoryForm, LinkForm
-from yayanblog.models import Post, Category, Comment, Link
+from yayanblog.forms import SettingForm, PostForm
+from yayanblog.models import Post,Comment
 from yayanblog.utils import redirect_back, allowed_file
 
 
@@ -58,11 +58,8 @@ def new_post():
     if form.validate_on_submit():
         title = form.title.data
         body = form.body.data
-        category = Category.query.get(form.category.data)
-        post = Post(title=title, body=body, category=category)
-        # same with:
-        # category_id = form.category.data
-        # post = Post(title=title, body=body, category_id=category_id)
+        post = Post(title=title, body=body)
+
         db.session.add(post)
         db.session.commit()
         flash('Post created.', 'success')
@@ -78,13 +75,11 @@ def edit_post(post_id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.body = form.body.data
-        post.category = Category.query.get(form.category.data)
         db.session.commit()
         flash('Post updated.', 'success')
         return redirect(url_for('blog.show_post', post_id=post.id))
     form.title.data = post.title
     form.body.data = post.body
-    form.category.data = post.category_id
     return render_template('admin/edit_post.html', form=form)
 
 
@@ -148,103 +143,6 @@ def delete_comment(comment_id):
     db.session.commit()
     flash('Comment deleted.', 'success')
     return redirect_back()
-
-
-@admin_bp.route('/category/manage')
-@login_required
-def manage_category():
-    return render_template('admin/manage_category.html')
-
-
-@admin_bp.route('/category/new', methods=['GET', 'POST'])
-@login_required
-def new_category():
-    form = CategoryForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        category = Category(name=name)
-        db.session.add(category)
-        db.session.commit()
-        flash('Category created.', 'success')
-        return redirect(url_for('.manage_category'))
-    return render_template('admin/new_category.html', form=form)
-
-
-@admin_bp.route('/category/<int:category_id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_category(category_id):
-    form = CategoryForm()
-    category = Category.query.get_or_404(category_id)
-    if category.id == 1:
-        flash('You can not edit the default category.', 'warning')
-        return redirect(url_for('blog.index'))
-    if form.validate_on_submit():
-        category.name = form.name.data
-        db.session.commit()
-        flash('Category updated.', 'success')
-        return redirect(url_for('.manage_category'))
-
-    form.name.data = category.name
-    return render_template('admin/edit_category.html', form=form)
-
-
-@admin_bp.route('/category/<int:category_id>/delete', methods=['POST'])
-@login_required
-def delete_category(category_id):
-    category = Category.query.get_or_404(category_id)
-    if category.id == 1:
-        flash('You can not delete the default category.', 'warning')
-        return redirect(url_for('blog.index'))
-    category.delete()
-    flash('Category deleted.', 'success')
-    return redirect(url_for('.manage_category'))
-
-
-@admin_bp.route('/link/manage')
-@login_required
-def manage_link():
-    return render_template('admin/manage_link.html')
-
-
-@admin_bp.route('/link/new', methods=['GET', 'POST'])
-@login_required
-def new_link():
-    form = LinkForm()
-    if form.validate_on_submit():
-        name = form.name.data
-        url = form.url.data
-        link = Link(name=name, url=url)
-        db.session.add(link)
-        db.session.commit()
-        flash('Link created.', 'success')
-        return redirect(url_for('.manage_link'))
-    return render_template('admin/new_link.html', form=form)
-
-
-@admin_bp.route('/link/<int:link_id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_link(link_id):
-    form = LinkForm()
-    link = Link.query.get_or_404(link_id)
-    if form.validate_on_submit():
-        link.name = form.name.data
-        link.url = form.url.data
-        db.session.commit()
-        flash('Link updated.', 'success')
-        return redirect(url_for('.manage_link'))
-    form.name.data = link.name
-    form.url.data = link.url
-    return render_template('admin/edit_link.html', form=form)
-
-
-@admin_bp.route('/link/<int:link_id>/delete', methods=['POST'])
-@login_required
-def delete_link(link_id):
-    link = Link.query.get_or_404(link_id)
-    db.session.delete(link)
-    db.session.commit()
-    flash('Link deleted.', 'success')
-    return redirect(url_for('.manage_link'))
 
 
 @admin_bp.route('/uploads/<path:filename>')
