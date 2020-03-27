@@ -11,168 +11,125 @@
               href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
               type="text/css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-        <style>
-
-        #topbar{
-            font-size:18px;
-            width:100%;
-            height:40px;
-            background-color:rgb(64,129,220);
-        }
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" type="text/css">
 
 
-        #topbar::after{
-            content:'';
-            display:block;
-            clear:both;
-        }
-
-        #topbar_left{
-            float:left;
-            margin-left:10%;
-            margin-top:5px;
-        }
-
-
-
-        #topbar_right{
-
-            float:right;
-            margin-right:10%;
-
-
-        }
-
-
-        .a_s{
-
-            float:left;
-            margin-top:-14px;
-
-        }
-        #settings{
-            margin-top:5px;
-        }
-
-
-
-         #topbar a{
-            color:white;
-            text-decoration: none;
-            margin:10px;
-        }
-
-         #topbar a:hover{
-             text-shadow:1px 1px 1px rgb(211, 211, 211,0.8);
-
-         }
-
-
-        #topbar_right .drop_list{
-            color:black;
-
-        }
-
-        li {
-            list-style-type:none;
-        }
-
-
-
-        .active{
-            font-weight:bolder;
-            text-shadow:1px 1px 1px rgb(211, 211, 211,0.8);
-
-        }
-
-        form #submit{
-            width:80px;
-            height:30px;
-            margin-top:10px;
-            border:1px solid white;
-            border-radius: 5px;
-            background-color:rgb(64,129,220,0.9);
-        }
-
-        form #body{
-            width:500px;
-            height:80px;
-            border:1px solid rgb(64,129,220,0.9);
-        }
-
-
-
-
-
-
-
-    </style>
     {% endblock head %}
 
 </head>
 
 <body>
 
-<nav id="topbar">
-    <div id="topbar_left">
-{#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>#}
+    <div id="top_wrapper">
+        <div class="w clearfix" id="topbar">
+            <ul id="topbar_left">
+                <li><a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a></li>
+                <li>|</li>
+                <li><a {% if request.endpoint=='blog.about' %}class="active"{% endif %} href="{{ url_for('blog.about') }}">About</a></li>
+                <li>|</li>
+                <li><a href="#">Photo Museum</a></li>
 
-            {% if current_user.is_authenticated %}
-                <a class="log_text" href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
-            {% else %}
-                <a class="log_text" href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
-            {% endif %}
-
-            <a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a>
-
-            <a {% if request.endpoint=='blog.about' %}class="active"{% endif %} href="{{ url_for('blog.about') }}">About</a>
-
-    </div>
-
-
-                {#  判断是否登录来显示管理员选项：NEW Manage Settings       #}
-    <div id="topbar_right">
-            <ul>
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item dropdown a_s">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false">
-                            Creat New <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="drop_list" href="{{ url_for('admin.new_post') }}">Post</a></li>
-
-
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown a_s">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false">
-                            Manage <span class="caret"></span>
-                            {% if unread_comments %}
-                                <span class="badge badge-success">new</span>
-                            {% endif %}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="drop_list" href="{{ url_for('admin.manage_post') }}">Post</a></li>
-                            <li><a class="drop_list" href="{{ url_for('admin.manage_comment') }}">
-                                Comment
-                                {% if unread_comments %}
-                                    <span class="badge badge-success">{{ unread_comments }}</span>
-                                {% endif %}
-                            </a></li>
-
-
-                        </ul>
-                    </li>
-                    <li id="settings" class="a_s"><a href="{{url_for('admin.settings')}}">Settings</a></li>
-                {% endif %}
             </ul>
+
+
+             <div id="log_inout">
+                 {% if current_user.is_authenticated %}
+                    <a class="log_text" href="{{ url_for('auth.logout', next=request.full_path) }}"><i class="fa fa-user-circle-o"></i>  Log Out</a>
+                 {% else %}
+                    <a class="log_text" href="{{ url_for('auth.login', next=request.full_path) }}"><i class="fa fa-user-circle-o"></i>  Log In</a>
+                 {% endif %}
+             </div>
+
+
+
+            <ul id="admin_option">
+                {% if current_user.is_authenticated %}
+                    <li id="create"><a href="{{ url_for('admin.new_post') }}">Create Post</a></li>
+                    <li>|</li>
+                    <li id="manage">Manage
+                        <ul id="manage_list">
+                            <li><a href="{{ url_for('admin.manage_post') }}">Manage Posts</a></li>
+                            <li><a href="{{ url_for('admin.manage_comment') }}">Manage Comments</a></li>
+
+
+                        </ul>
+
+                    </li>
+                    <li>|</li>
+                    <li id="setting"><a href="{{url_for('admin.settings')}}">Setting</a></li>
+                {% endif %}
+
+
+            </ul>
+
+
+        </div>
+
     </div>
 
-</nav>
+{##}
+{#<nav id="topbar">#}
+{#    <div id="topbar_left">#}
+{#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>#}
+{#            <i class="fa fa-map-pin"></i>#}
+{#            {% if current_user.is_authenticated %}#}
+{#                <a class="log_text" href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>#}
+{#            {% else %}#}
+{#                <a class="log_text" href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>#}
+{#            {% endif %}#}
+{##}
+{#            <a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a>#}
+{##}
+{#            <a {% if request.endpoint=='blog.about' %}class="active"{% endif %} href="{{ url_for('blog.about') }}">About</a>#}
+{##}
+{#    </div>#}
+{##}
+{##}
+                {#  判断是否登录来显示管理员选项：NEW Manage Settings       #}
+{#    <div id="topbar_right">#}
+{#            <ul>#}
+{#                {% if current_user.is_authenticated %}#}
+{#                    <li class="nav-item dropdown a_s">#}
+{#                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"#}
+{#                           aria-haspopup="true"#}
+{#                           aria-expanded="false">#}
+{#                            Creat New <span class="caret"></span>#}
+{#                        </a>#}
+{#                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                            <li><a class="drop_list" href="{{ url_for('admin.new_post') }}">Post</a></li>#}
+{##}
+{##}
+{#                        </ul>#}
+{#                    </li>#}
+{#                    <li class="nav-item dropdown a_s">#}
+{#                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"#}
+{#                           aria-haspopup="true"#}
+{#                           aria-expanded="false">#}
+{#                            Manage <span class="caret"></span>#}
+{#                            {% if unread_comments %}#}
+{#                                <span class="badge badge-success">new</span>#}
+{#                            {% endif %}#}
+{#                        </a>#}
+{#                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                            <li><a class="drop_list" href="{{ url_for('admin.manage_post') }}">Post</a></li>#}
+{#                            <li><a class="drop_list" href="{{ url_for('admin.manage_comment') }}">#}
+{#                                Comment#}
+{#                                {% if unread_comments %}#}
+{#                                    <span class="badge badge-success">{{ unread_comments }}</span>#}
+{#                                {% endif %}#}
+{#                            </a></li>#}
+{##}
+{##}
+{#                        </ul>#}
+{#                    </li>#}
+{#                    <li id="settings" class="a_s"><a href="{{url_for('admin.settings')}}">Settings</a></li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+{#    </div>#}
+{##}
+{#</nav>#}
 
 
 <main class="container">

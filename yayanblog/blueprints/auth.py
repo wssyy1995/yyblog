@@ -5,6 +5,7 @@
     :copyright: © 2018 Grey Li <withlihui@gmail.com>
     :license: MIT, see LICENSE for more details.
 """
+import time
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -18,10 +19,13 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        print('you are already logged in ')
         return redirect(url_for('blog.index'))
 
     form = LoginForm()
+
     if form.validate_on_submit():
+        print('validate pass')
         username = form.username.data
         password = form.password.data
         remember = form.remember.data
@@ -34,8 +38,8 @@ def login():
             flash('Invalid username or password.', 'warning')
         else:
             flash('No account.', 'warning')
-    print('error happen')
-    print(form.username.errors)
+
+
     return render_template('auth/login.html', form=form)
 
 
