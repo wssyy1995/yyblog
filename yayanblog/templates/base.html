@@ -7,9 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}{% endblock title %} - {{ admin.blog_title|default('Blog Title') }}</title>
         <link rel="icon" href="{{ url_for('static', filename='yy.ico') }}">
-        <link rel="stylesheet"
-              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"
-              type="text/css">
+{#        <link rel="stylesheet"#}
+{#              href="{{ url_for('static', filename='css/%s.min.css' % request.cookies.get('theme', 'perfect_blue')) }}"#}
+{#              type="text/css">#}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/css/font-awesome.min.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" type="text/css">
@@ -69,67 +69,6 @@
 
     </div>
 
-{##}
-{#<nav id="topbar">#}
-{#    <div id="topbar_left">#}
-{#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>#}
-{#            <i class="fa fa-map-pin"></i>#}
-{#            {% if current_user.is_authenticated %}#}
-{#                <a class="log_text" href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>#}
-{#            {% else %}#}
-{#                <a class="log_text" href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>#}
-{#            {% endif %}#}
-{##}
-{#            <a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a>#}
-{##}
-{#            <a {% if request.endpoint=='blog.about' %}class="active"{% endif %} href="{{ url_for('blog.about') }}">About</a>#}
-{##}
-{#    </div>#}
-{##}
-{##}
-                {#  判断是否登录来显示管理员选项：NEW Manage Settings       #}
-{#    <div id="topbar_right">#}
-{#            <ul>#}
-{#                {% if current_user.is_authenticated %}#}
-{#                    <li class="nav-item dropdown a_s">#}
-{#                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"#}
-{#                           aria-haspopup="true"#}
-{#                           aria-expanded="false">#}
-{#                            Creat New <span class="caret"></span>#}
-{#                        </a>#}
-{#                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
-{#                            <li><a class="drop_list" href="{{ url_for('admin.new_post') }}">Post</a></li>#}
-{##}
-{##}
-{#                        </ul>#}
-{#                    </li>#}
-{#                    <li class="nav-item dropdown a_s">#}
-{#                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"#}
-{#                           aria-haspopup="true"#}
-{#                           aria-expanded="false">#}
-{#                            Manage <span class="caret"></span>#}
-{#                            {% if unread_comments %}#}
-{#                                <span class="badge badge-success">new</span>#}
-{#                            {% endif %}#}
-{#                        </a>#}
-{#                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
-{#                            <li><a class="drop_list" href="{{ url_for('admin.manage_post') }}">Post</a></li>#}
-{#                            <li><a class="drop_list" href="{{ url_for('admin.manage_comment') }}">#}
-{#                                Comment#}
-{#                                {% if unread_comments %}#}
-{#                                    <span class="badge badge-success">{{ unread_comments }}</span>#}
-{#                                {% endif %}#}
-{#                            </a></li>#}
-{##}
-{##}
-{#                        </ul>#}
-{#                    </li>#}
-{#                    <li id="settings" class="a_s"><a href="{{url_for('admin.settings')}}">Settings</a></li>#}
-{#                {% endif %}#}
-{#            </ul>#}
-{#    </div>#}
-{##}
-{#</nav>#}
 
 
 <main class="container">

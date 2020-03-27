@@ -6,18 +6,30 @@
     clear:both;
 }
 body{
-    font:14px/1 Arial,Microsoft Yahei,Heiti SC,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+    font:14px/1.5 Arial,Microsoft Yahei,Heiti SC,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
     color:black;
     /*将body宽度设定最小值，浏览器缩小的时候，也不会让容器溢出*/
     min-width:1100px;
 }
 
-/*设置一个类，用来表示中间容器的宽度,之后如果需要宽度为1226的容器都加上class=c*/
+/*设置一个类，用来固定中间容器的宽度,之后如果需要宽度为1100的中间容器都加上class=c*/
 .w{
     width:1100px;
     /*当浏览器缩小的时候，*/
     min-width:1100px;
     margin:0 auto;
+}
+
+h2{
+    font-size:18px;
+    color:#3F584B;
+    font-weight: normal;
+}
+
+h3{
+    font-size:12px;
+    font-weight: normal;
+    color:#959E9A;
 }
 
 #topbar a{
@@ -29,8 +41,9 @@ body{
 #top_wrapper{
     color:white;
     width:100%;
-    height:40px;
-    line-height:40px;
+    /*height:30px;*/
+    /*因为只有文字，所有line-height设置后就可以了，文字也会水平居中*/
+    line-height:30px;
     background-color: rgb(102, 161, 134);
 
 
@@ -40,6 +53,11 @@ body{
     text-shadow:1px 1px 1px rgb(211, 211, 211,0.8);
 }
 
+/*如果Home,About,Gallery如果在当前页面，则class为active，则应用属性*/
+.active{
+    font-weight: bold;
+    text-shadow:1px 1px 1px rgb(211, 211, 211,0.5);
+}
 
 
 /*设置topbar的三个部分以及每个部分内的li浮动*/
@@ -82,11 +100,11 @@ body{
 }
 #manage_list{
     width:150px;
-    background-color:rgb(64,129,220);
+    background-color:rgb(102, 161, 134);
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     position: absolute;
-    top:40px;
+    top:30px;
     left:-20px;
     /*给浮窗设置一个很大的z-index,这样就会在float层面也是最上层的*/
     z-index:999;
@@ -117,17 +135,72 @@ body{
 #banner_wrapper{
     color:white;
     width:100%;
-    height:80px;
+    height:60px;
     background-color: rgb(238, 244, 236);
 
 
 }
 
-#banner_bar{
-    height:80px;
-    border:1px solid red;
+
+
+#banner_logo{
+    float:left;
+    width:50px;
+    height:50px;
+    overflow:hidden;
+    margin-top:5px;
+    /*使用雪碧图来设置logo背景图，使用一张由两张50像素水平拼起来的雪碧图；默认是取前面50px宽度*/
+    background-image: url("../image/yylogo-sprite.png");
+    /*在这里设置background-position的transitin时间为0.3秒;不能在hover里设置*/
+    transition:background-position 0.3s;
+
 
 }
+/*当鼠标hover在logo上图片取值起点左移动50像素*/
+#banner_logo:hover{
+    background-image: url("../image/yylogo-sprite.png");
+    background-position:-50px;
+
+}
+
+#banner_title{
+    float:left;
+    margin-left:5px;
+    margin-top:10px;
+}
+
+
+
+
+#banner_search{
+    float:right;
+    height:30px;
+    margin-top:15px;
+
+}
+
+#search_text{
+    float:right;
+    width:200px;
+    height:30px;
+    text-align:center;
+    border:1px solid grey;
+    border-radius:20px;
+}
+
+#search_submit{
+    float:right;
+    width:30px;
+    height:30px;
+    background-image: url("../image/search.jpg");
+    border:1px solid grey;
+    border-radius:20px;
+
+}
+
+#search_submit:hover{
+    box-shadow: 0px 0px 3px rgb(102, 161, 134,0.8);
+
 
 
 
