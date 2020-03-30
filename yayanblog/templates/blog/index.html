@@ -23,14 +23,68 @@
 
             <div id="banner_search">
                 <form >
+                    <a href="javascript:alert('Sorry!this function is not open now');">
                     <input id="search_submit" type="submit" value="" />
                     <input id="search_text" type="text" value placeholder="Search" />
+
+                    </a>
 
 
                 </form>
             </div>
         </div>
 
+    </div>
+
+    <div class="clearfix w" id="gallery_wrapper">
+        <div id="gallery_bar">
+            <h1>Gallery</h1>
+            <a href="{{ url_for('admin.not_open') }}">More <i class="fa fa-angle-right"></i></a>
+
+        </div>
+        <div id="gallery_recommend" class="clearfix">
+            <div id="gallery_recommend_big">
+                <div id="recommend_slide">
+                    <div class="recommend_big_item" style="z-index:100;">
+                        <img src="../static/image/rabbit-moon.png">
+
+                    </div>
+                    <div class="recommend_big_item" style="z-index:101;">
+                        <img src="../static/image/shiba.png">
+                    </div>
+                    <div class="recommend_big_item"></div>
+                    <div class="recommend_big_item"></div>
+
+
+                </div>
+
+                <div id="slide_trigger" style="z-index: 110;">
+                    <a href="javascript:alert('sorry ,this function is under development...');"></a>
+                    <a href="javascript:alert('sorry ,this function is under development...');"></a>
+                    <a href="javascript:alert('sorry ,this function is under development...');"></a>
+                    <a href="javascript:alert('sorry ,this function is under development...');"></a>
+
+
+
+                </div>
+
+
+            </div>
+
+            <div id="gallery_recommend_small" class="clearfix">
+                <div class="recommend_small_item">
+                    <img src="../static/image/shiba-s1.png">
+                </div>
+                <div class="recommend_small_item">
+                    <img src="../static/image/shiba-s2.png">
+                </div>
+                <div class="recommend_small_item">
+                    <img src="../static/image/shiba-s3.png">
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
 

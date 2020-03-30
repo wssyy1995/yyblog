@@ -158,3 +158,8 @@ def upload_image():
     f.save(os.path.join(current_app.config['YAYANBLOG_UPLOAD_PATH'], f.filename))
     url = url_for('.get_image', filename=f.filename)
     return upload_success(url, f.filename)
+
+
+@admin_bp.route('/not_open')
+def not_open():
+    return render_template('errors/not_open.html')

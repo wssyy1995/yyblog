@@ -22,3 +22,5 @@ print(list)
     {{ form.remember }}{{ form.remember.label }}<br>
     {{ form.submit }}<br>
 </form>
+
+
