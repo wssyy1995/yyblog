@@ -101,7 +101,7 @@
                              例如： truncate(s, length=255, killwords=False, end='...')#}
                             <p class="post_preview_body" >{{ post.body|striptags|truncate }}</p>
 
-                            <div class="post_preview_comment" style="float:left;color:grey;margin-left:10px;font-size:12px;">comment:{{ post.comments|length }}</div>
+                            <div class="post_preview_comment" style="float:left;color:grey;margin-left:10px;font-size:12px;">Comment: {{ post.comments|length }}</div>
                             {#   flask-moment用法： 1.需要一个utc时间元祖，可以通过datetime.datetime.utcnow（）获得；1.moment自动将服务器传来的时间转化为                        #}
                             <div style="float:right;color:grey;margin-right:10px;font-size:12px;">{{ moment(post.timestamp).format('LLL') }}</div>
 
@@ -128,7 +128,7 @@
                         {% endif %}
 
                         {% if pagination.has_next %}
-                            <a id="next_mark"" href="{{ url_for(request.endpoint,page=pagination.next_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                            <a id="next_mark" href="{{ url_for(request.endpoint,page=pagination.next_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
                         {% else %}
                             <i style="color:grey;" class="fa fa-chevron-circle-right fa-2x"></i>
                         {% endif %}
@@ -149,11 +149,6 @@
 
          </div>
 
-
-
-        <div id="post_ranking">
-
-        </div>
 
 
     </div>

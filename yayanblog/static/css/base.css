@@ -326,7 +326,7 @@ h3{
 
 #post_list{
     float:left;
-    width:700px;
+    width:100%;
     margin:10px;
 
 }
@@ -351,32 +351,9 @@ h3{
 }
 
 
-
 #pagination_mark a{
     color:pink;
 }
-
-
-
-
-
-
-
-
-
-#post_ranking{
-    float:right;
-    margin:10px;
-    width:350px;
-    height:600px;
-    border:1px solid greenyellow;
-}
-
-
-
-
-
-
 
 
 
@@ -390,5 +367,13 @@ h3{
     /*color:rgb(102, 161, 134);*/
 
 }
+
+
+
+
+
+
+
+
 
 
