@@ -310,12 +310,32 @@ h3{
     width:167px;
     height:240px;
     overflow:hidden;
+    position:relative;
 
 }
 
 .recommend_small_item img{
     border-radius:5px;
 }
+
+.small_image_shadow{
+    position:absolute;
+    bottom:0;
+    width:167px;
+    height:0;
+    transition:height 0.2s;
+    line-height:30px;
+    color:darkslategrey;
+    text-align: center;
+    background-color: rgb(255, 255, 255,0.7);
+}
+
+.recommend_small_item:hover .small_image_shadow{
+    height:30px;
+}
+
+
+
 
 
 /*posts */
