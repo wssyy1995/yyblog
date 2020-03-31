@@ -69,6 +69,30 @@
         </div>
 
     </div>
+    <div id="banner_wrapper">
+        <div class="w clearfix" id="banner_bar">
+
+            <div id="banner_logo">
+            </div>
+
+            <div id="banner_title">
+                <h2>{{ admin.blog_title|default('Blog Title')   }}</h2>
+                <h3>&nbsp;{{ admin.blog_sub_title|default('Blog Subtitle')}}</h3>
+            </div>
+
+            <div id="banner_search">
+                {#      form 的method是get的话，就会在action的url后面添加查询参数：？参数key（为表单字段名）=字段value值 #}
+                <form action="{{ url_for('blog.search') }}" method="get">
+                    {{ form.search_submit }}
+                    {{ form.search_text }}
+{#                    <input id="search_submit" type="submit" value="" />#}
+{#                    <input id="search_text" type="text" value placeholder="Search" />#}
+
+                </form>
+            </div>
+        </div>
+
+    </div>
 
 
 

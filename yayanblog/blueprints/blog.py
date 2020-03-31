@@ -11,7 +11,7 @@ from flask_login import current_user
 
 from yayanblog.emails import send_new_comment_email, send_new_reply_email
 from yayanblog.extensions import db
-from yayanblog.forms import CommentForm, AdminCommentForm
+from yayanblog.forms import CommentForm, AdminCommentForm,SearchForm
 from yayanblog.models import Post,Comment
 from yayanblog.utils import redirect_back
 
@@ -33,9 +33,22 @@ def index():
     return render_template('blog/index.html', pagination=pagination, posts=posts)
 
 
+
+@blog_bp.route('/search',methods=['GET', 'POST'])
+def search():
+    q=request.args.get('search_text')
+    search_post = Post.query.filter(Post.title.like('%' + q + '%')).all()
+    return render_template('blog/post_search.html', search_post=search_post)
+
+
+
+
+
 @blog_bp.route('/about')
 def about():
     return render_template('blog/about.html')
+
+
 
 
 @blog_bp.route('/post/<int:post_id>', methods=['GET', 'POST'])

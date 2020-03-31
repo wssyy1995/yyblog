@@ -44,3 +44,7 @@ class AdminCommentForm(CommentForm):
     author = HiddenField()
 
 
+class SearchForm(FlaskForm):
+    search_submit=SubmitField(render_kw={'value':''})
+    search_text=StringField('search_text', validators=[DataRequired(), Length(1, 16)])
+

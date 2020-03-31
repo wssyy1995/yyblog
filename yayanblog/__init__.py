@@ -6,7 +6,7 @@
     :license: MIT, see LICENSE for more details.
 """
 import logging
-import os,time
+import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 import click
@@ -14,7 +14,7 @@ from flask import Flask, render_template, request
 from flask_login import current_user
 from flask_sqlalchemy import get_debug_queries
 from flask_wtf.csrf import CSRFError
-
+from yayanblog.forms import SearchForm
 from yayanblog.blueprints.admin import admin_bp
 from yayanblog.blueprints.auth import auth_bp
 from yayanblog.blueprints.blog import blog_bp
@@ -130,12 +130,13 @@ def register_template_context(app):
     @app.context_processor
     def make_template_context():
         admin = Admin.query.first()
+        form=SearchForm()
         if current_user.is_authenticated:
             unread_comments = Comment.query.filter_by(reviewed=False).count()
         else:
             unread_comments = None
         return dict(
-            admin=admin,unread_comments=unread_comments,time=time)
+            admin=admin,unread_comments=unread_comments,form=form)
 
 # 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
