@@ -70,7 +70,7 @@
     </div>
 
     <div class="clearfix w" id="gallery_wrapper">
-        <div id="gallery_bar">
+        <div id="gallery_bar" class="sub_bar">
             <h1>Gallery</h1>
             <a href="errors/not_open.html">More <i class="fa fa-angle-right"></i></a>
 
@@ -118,6 +118,39 @@
             </div>
 
         </div>
+    </div>
+
+    <div class="clearfix w" id="post_wrapper">
+        <div id="post_bar" class="sub_bar">
+            <h1>Posts</h1>
+        </div>
+        <div id="post_list" class="clearfix">
+            <div class="post_cell clearfix">
+                <div class="author_info">
+                    <p>{{ authorname }}</p>
+                    <p>(Author)</p>
+
+                </div>
+                <div class="post_info clearfix">
+                    <p>{{ post.title }}</p>
+                    <p style="background-color: #cdcdcd;">{{ post.body|striptags|truncate }}</p>
+                    <div style="float:left">comment:{{ post.comments|length }}</div>
+                    <div style="float:right">date</div>
+
+                </div>
+
+            </div>
+
+            <div id="pagination_switcher">
+
+            </div>
+
+        </div>
+        <div id="post_ranking">
+
+        </div>
+
+
     </div>
 
 

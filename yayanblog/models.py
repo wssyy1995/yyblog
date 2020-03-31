@@ -42,31 +42,25 @@ class Post(db.Model):
     can_comment = db.Column(db.Boolean, default=True)
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
 
-# 个人感觉comment和reply应该分开设计：所有reply应该在集合在最高层的comment下面
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(30))
-    email = db.Column(db.String(254))
-    site = db.Column(db.String(255))
     body = db.Column(db.Text)
     from_admin = db.Column(db.Boolean, default=False)
-    reviewed = db.Column(db.Boolean, default=False)
+    reviewed = db.Column(db.Boolean, default=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     post = db.relationship('Post', back_populates='comments')
 
+
+    # 回复和被回复的comment都放在一个表里了
     # 评论的回复评论：可以在评论模型内建立层级关系；这种在同一模型内的一对多关系在SQLAlchemy中被称为邻接列表关系（adjacency List Relationship）
     # 对于一(replied)对多（replies）,在"多"的这一侧定义外键到远程的"一"的那一侧的id列表。
-    replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    # replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
     # 但是在邻接列表关系中，关系的两侧都在同一个模型中，SQLAlchemy无法分辨关系的两侧；所以在定义关系属性时，通过remote_side参数设为id字段，将id字段定义为关系的远程侧，也就是replied_id就变为本地侧
-    replied = db.relationship('Comment', back_populates='replies', remote_side=[id])
-    replies = db.relationship('Comment', back_populates='replied', cascade='all, delete-orphan')
+    # replied = db.relationship('Comment', back_populates='replies', remote_side=[id])
+    # replies = db.relationship('Comment', back_populates='replied', cascade='all, delete-orphan')
     # Same with:
     # replies = db.relationship('Comment', backref=db.backref('replied', remote_side=[id]),
     # cascade='all,delete-orphan')
 
-
-# class Link(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(30))
-#     url = db.Column(db.String(255))

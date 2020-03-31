@@ -5,6 +5,7 @@
     :copyright: © 2018 Grey Li <withlihui@gmail.com>
     :license: MIT, see LICENSE for more details.
 """
+import time,datetime
 from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, abort, make_response
 from flask_login import current_user
 
@@ -19,9 +20,15 @@ blog_bp = Blueprint('blog', __name__)
 
 @blog_bp.route('/')
 def index():
+    # url_for的参数，第一个参数为endpoint,第二个参数可以为变量）
+    # url_for的变量参数可以是已经在route中定义的变量；比如 ： @app.route('/user/<username>') > url_for('profile', username='John Doe') 那么在调用url_for 的时候将变量的具体指传入url中
+    #url_for的变量参数 如果是route中没有的未知参数，那么会作为查询参数，加在url末尾
+    # url路径： /?page=3  则page得到3
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['YAYANBLOG_POST_PER_PAGE']
+    # 查询方法 paginate（第几页，每页显示多少个）；得到一个pagination实例，即某一页的分页对象
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
+    # 将这个pagination调用items属性，则返回一个post数组，数组元素是每个post的db对象
     posts = pagination.items
     return render_template('blog/index.html', pagination=pagination, posts=posts)
 

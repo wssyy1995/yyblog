@@ -1,4 +1,5 @@
 /*父元素清除高度塌陷*/
+
 .clearfix::before,
 .clearfix::after{
     content:'';
@@ -211,14 +212,14 @@ h3{
     margin-top:10px;
 }
 
-#gallery_bar{
+.sub_bar{
     height:40px;
     box-sizing: border-box;
     border-bottom:2px solid #7FB099;
 
 }
 
-#gallery_bar h1{
+.sub_bar h1{
     float:left;
     font-weight:normal;
     margin-top:10px;
@@ -293,8 +294,6 @@ h3{
 #slide_trigger a:hover{
     background-color:rgb(102, 161, 134,0.6);
 
-
-
 }
 
 
@@ -317,4 +316,79 @@ h3{
 .recommend_small_item img{
     border-radius:5px;
 }
+
+
+/*posts */
+#post_wrapper{
+    margin-top:10px;
+
+}
+
+#post_list{
+    float:left;
+    width:700px;
+    margin:10px;
+
+}
+.post_preview_title{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:bold;
+    color: rgb(68,119,166);
+}
+
+.post_preview_title:hover{
+    text-decoration:underline;
+}
+
+.post_preview_body{
+    background-color: #efefef;
+    margin:5px;
+    padding:5px;
+    color:dimgrey;
+    border-radius:5px;
+    text-indent:25px;
+}
+
+
+
+#pagination_mark a{
+    color:pink;
+}
+
+
+
+
+
+
+
+
+
+#post_ranking{
+    float:right;
+    margin:10px;
+    width:350px;
+    height:600px;
+    border:1px solid greenyellow;
+}
+
+
+
+
+
+
+
+
+
+#pagination_mark a{
+    color:rgb(68,119,166);
+}
+
+#pagination_mark a:hover{
+    text-shadow:0 0 1.5px rgb(68,119,166)
+
+    /*color:rgb(102, 161, 134);*/
+
+}
+
 

@@ -19,12 +19,12 @@ fake = Faker()
 def fake_admin():
     admin = Admin(
         username='admin',
-        blog_title='yayanblog',
+        blog_title='yayanadmin',
         blog_sub_title="No, I'm the real thing.",
         name='Mima Kirigoe',
         about='Um, l, Mima Kirigoe, had a fun time as a member of CHAM...'
     )
-    admin.set_password('helloflask')
+    admin.set_password('123456ff')
     db.session.add(admin)
     db.session.commit()
 
@@ -46,8 +46,6 @@ def fake_comments(count=500):
     for i in range(count):
         comment = Comment(
             author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             reviewed=True,
@@ -60,11 +58,9 @@ def fake_comments(count=500):
         # unreviewed comments
         comment = Comment(
             author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
-            reviewed=False,
+            reviewed=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
@@ -72,8 +68,6 @@ def fake_comments(count=500):
         # from admin
         comment = Comment(
             author='Mima Kirigoe',
-            email='mima@example.com',
-            site='example.com',
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             from_admin=True,
@@ -83,26 +77,3 @@ def fake_comments(count=500):
         db.session.add(comment)
     db.session.commit()
 
-    # replies
-    for i in range(salt):
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            reviewed=True,
-            replied=Comment.query.get(random.randint(1, Comment.query.count())),
-            post=Post.query.get(random.randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
-    db.session.commit()
-
-
-def fake_links():
-    twitter = Link(name='Twitter', url='#')
-    facebook = Link(name='Facebook', url='#')
-    linkedin = Link(name='LinkedIn', url='#')
-    google = Link(name='Google+', url='#')
-    db.session.add_all([twitter, facebook, linkedin, google])
-    db.session.commit()

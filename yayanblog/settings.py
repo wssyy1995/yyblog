@@ -44,7 +44,7 @@ class BaseConfig(object):
     MAIL_DEFAULT_SENDER = ('yayanblog Admin', MAIL_USERNAME)
 
     YAYANBLOG_EMAIL = os.getenv('YAYANBLOG_EMAIL','18221091524@126.com')
-    YAYANBLOG_POST_PER_PAGE = 10
+    YAYANBLOG_POST_PER_PAGE = 5
     YAYANBLOG_MANAGE_POST_PER_PAGE = 15
     YAYANBLOG_COMMENT_PER_PAGE = 15
     # ('theme name', 'display name')

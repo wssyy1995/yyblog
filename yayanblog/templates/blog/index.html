@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
-{% from 'bootstrap/pagination.html' import render_pager %}
+
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{#    <div class="page-header">#}
-{#        <h1 class="display-3">{{ admin.blog_title|default('Blog Title') }}</h1>#}
-{#        <h4 class="text-muted">&nbsp;{{ admin.blog_sub_title|default('Blog Subtitle') }}</h4>#}
-{#    </div>#}
+
 
 
     <div id="banner_wrapper">
@@ -35,9 +32,8 @@
         </div>
 
     </div>
-
     <div class="clearfix w" id="gallery_wrapper">
-        <div id="gallery_bar">
+        <div id="gallery_bar" class="sub_bar">
             <h1>Gallery</h1>
             <a href="{{ url_for('admin.not_open') }}">More <i class="fa fa-angle-right"></i></a>
 
@@ -90,13 +86,77 @@
 
 
 
-    <div class="row">
-        <div class="col-sm-8">
-            {% include 'blog/_posts.html' %}
+    <div class="clearfix w" id="post_wrapper">
+         <div id="post_bar" class="sub_bar">
+            <h1>Posts</h1>
+         </div>
+         <div id="post_list" class="clearfix">
             {% if posts %}
-                <div class="page-footer">{{ render_pager(pagination) }}</div>
+                {% for post in posts %}
+                    <div class="post_cell" style="margin:10px 0;">
+                        <div class="post_info clearfix">
+                            <h3><a class="post_preview_title" href="{{ url_for('.show_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+
+                            {#     striptags就是去掉html标签，truncate就是规定文本显示的长度
+                             例如： truncate(s, length=255, killwords=False, end='...')#}
+                            <p class="post_preview_body" >{{ post.body|striptags|truncate }}</p>
+
+                            <div class="post_preview_comment" style="float:left;color:grey;margin-left:10px;font-size:12px;">comment:{{ post.comments|length }}</div>
+                            {#   flask-moment用法： 1.需要一个utc时间元祖，可以通过datetime.datetime.utcnow（）获得；1.moment自动将服务器传来的时间转化为                        #}
+                            <div style="float:right;color:grey;margin-right:10px;font-size:12px;">{{ moment(post.timestamp).format('LLL') }}</div>
+
+                        </div>
+
+                    </div>
+                    {#loop.last :当前循环是否是最后一次循环  #}
+                    {% if not loop.last %}
+                        <hr>
+                    {% endif %}
+                {% endfor %}
+
+                <div id="pagination_switcher">
+                    {#  <h1>手动渲染分页标志</h1>#}
+                    <div style="text-align:center;" id="pagination_mark">
+                        {# pagination.has_prev 是pagination分页对象的属性，如果存在上一页，返回True#}
+                        {% if pagination.has_prev %}
+                            {# url_for的参数，第一个参数为endpoint,第二个参数可以为变量）#}
+                            {# url_for的变量参数可以是已经在route中定义的变量；比如 ： @app.route('/user/<username>') > url_for('profile', username='John Doe') 那么在调用url_for 的时候将变量的具体指传入url中#}
+                            {# url_for的变量参数 如果是route中没有的未知参数，比如下面的page是在index的端点的route URL'/'中没有定义的，那么会作为查询参数，加在url末尾：url='/?page=pagination.prev_num'#}
+                            <a href="{{ url_for(request.endpoint,page=pagination.prev_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+                         {% else %}
+                            <i style="color:grey;" class="fa fa-chevron-circle-left fa-2x"></i>
+                        {% endif %}
+
+                        {% if pagination.has_next %}
+                            <a id="next_mark"" href="{{ url_for(request.endpoint,page=pagination.next_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                        {% else %}
+                            <i style="color:grey;" class="fa fa-chevron-circle-right fa-2x"></i>
+                        {% endif %}
+
+
+                    </div>
+
+                </div>
+            {% else %}
+                <div class="no_post_tip">
+                    <h5>No posts yet.</h5>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('admin.new_post') }}">Write Now</a>
+                    {% endif %}
+                </div>
             {% endif %}
+
+
+         </div>
+
+
+
+        <div id="post_ranking">
+
         </div>
 
+
     </div>
+
+
 {% endblock %}

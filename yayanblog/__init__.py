@@ -6,7 +6,7 @@
     :license: MIT, see LICENSE for more details.
 """
 import logging
-import os
+import os,time
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 import click
@@ -121,7 +121,7 @@ def register_blueprints(app):
 def register_shell_context(app):
     @app.shell_context_processor
     def make_shell_context():
-        return dict(db=db, Admin=Admin, Post=Post,Comment=Comment)
+        return dict(db=db, Admin=Admin, Post=Post,Comment=Comment,time=time)
 
 # app.context_processor 模板上下文处理器下的所有函数，在render_template任意一个html页面时，都会自动执行。
 # 并且函数的返回值必须是个dict，dict的key会被当做变量返回到模板中，值为value
@@ -135,7 +135,7 @@ def register_template_context(app):
         else:
             unread_comments = None
         return dict(
-            admin=admin,unread_comments=unread_comments)
+            admin=admin,unread_comments=unread_comments,time=time)
 
 # 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
@@ -188,10 +188,10 @@ def register_commands(app):
             click.echo('Creating the temporary administrator account...')
             admin = Admin(
                 username=username,
-                blog_title='yayanblog',
-                blog_sub_title="No, I'm the real thing.",
-                name='Admin',
-                about='Anything about you.'
+                blog_title='yayanblog-title',
+                blog_sub_title="Hi,welcome here! this is the yayanblog-sub-title",
+                name='YayanAdmin',
+                about='WAnything about you.'
             )
             admin.set_password(password)
             db.session.add(admin)
@@ -200,17 +200,21 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--post', default=1, help='Quantity of posts, default is 50.')
-    @click.option('--comment', default=1, help='Quantity of comments, default is 500.')
+    @click.option('--post', default=100, help='Quantity of posts, default is 50.')
+    @click.option('--comment', default=100, help='Quantity of comments, default is 500.')
     def forge(post, comment):
         """Generate fake data."""
-        from yayanblog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
+        from yayanblog.fakes import fake_admin,fake_posts, fake_comments
 
-        db.drop_all()
-        db.create_all()
+        # db.drop_all()
+        # db.create_all()
 
-        click.echo('Generating the administrator...')
-        fake_admin()
+        #
+        #
+        # click.echo('Generating the administrator...')
+        # fake_admin()
+
+
 
 
         click.echo('Generating %d posts...' % post)
