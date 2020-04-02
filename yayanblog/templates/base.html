@@ -28,8 +28,6 @@
 
                 <li><a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a></li>
                 <li>|</li>
-                <li><a {% if request.endpoint=='blog.about' %}class="active"{% endif %} href="{{ url_for('blog.about') }}">About</a></li>
-                <li>|</li>
                 <li><a href="{{ url_for('admin.not_open') }}">Gallery</a></li>
 
             </ul>
@@ -76,15 +74,15 @@
             </div>
 
             <div id="banner_title">
-                <h2>{{ admin.blog_title|default('Blog Title')   }}</h2>
-                <h3>&nbsp;{{ admin.blog_sub_title|default('Blog Subtitle')}}</h3>
+                <h2>{{ admin.blog_title  }}</h2>
+                <h3>&nbsp;{{ admin.blog_sub_title}}</h3>
             </div>
 
             <div id="banner_search">
                 {#      form 的method是get的话，就会在action的url后面添加查询参数：？参数key（为表单字段名）=字段value值 #}
                 <form action="{{ url_for('blog.search') }}" method="get">
-                    {{ form.search_submit }}
-                    {{ form.search_text }}
+                    {{ search_form.search_submit }}
+                    {{ search_form.search_text }}
 {#                    <input id="search_submit" type="submit" value="" />#}
 {#                    <input id="search_text" type="text" value placeholder="Search" />#}
 
@@ -114,7 +112,7 @@
     {% block footer %}
         <footer>
             <p id="bottom_footer" style="text-align: center">
-                <small> &copy; 2020 <a href="http://wssyy2014.com">Yayan Su</a>
+                <small> &copy; 2020 <a href="https://github.com/wssyy1995">Yayan Su</a>
 {#                    -#}
 {#                    <a href="https://github.com/wssyy1995" >GitHub</a> -#}
 
@@ -127,9 +125,8 @@
 </main>
 
 {% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/yyjs.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
 {% endblock %}

@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import random
 
 from faker import Faker
@@ -48,19 +42,16 @@ def fake_comments(count=500):
             author=fake.name(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
-            reviewed=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
 
     salt = int(count * 0.1)
     for i in range(salt):
-        # unreviewed comments
         comment = Comment(
             author=fake.name(),
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
-            reviewed=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)
@@ -71,7 +62,6 @@ def fake_comments(count=500):
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             from_admin=True,
-            reviewed=True,
             post=Post.query.get(random.randint(1, Post.query.count()))
         )
         db.session.add(comment)

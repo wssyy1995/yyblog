@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -130,13 +124,9 @@ def register_template_context(app):
     @app.context_processor
     def make_template_context():
         admin = Admin.query.first()
-        form=SearchForm()
-        if current_user.is_authenticated:
-            unread_comments = Comment.query.filter_by(reviewed=False).count()
-        else:
-            unread_comments = None
+        search_form=SearchForm()
         return dict(
-            admin=admin,unread_comments=unread_comments,form=form)
+            admin=admin,search_form=search_form)
 
 # 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
@@ -158,16 +148,6 @@ def register_errors(app):
 
 
 def register_commands(app):
-    @app.cli.command()
-    @click.option('--drop', is_flag=True, help='Create after drop.')
-    def initdb(drop):
-        """Initialize the database."""
-        if drop:
-            click.confirm('This operation will delete the database, do you want to continue?', abort=True)
-            db.drop_all()
-            click.echo('Drop tables.')
-        db.create_all()
-        click.echo('Initialized database.')
 
     @app.cli.command()
     @click.option('--username', prompt=True, help='The username used to login.')
@@ -210,8 +190,6 @@ def register_commands(app):
         # db.drop_all()
         # db.create_all()
 
-        #
-        #
         # click.echo('Generating the administrator...')
         # fake_admin()
 

@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from datetime import datetime
 
 from flask_login import UserMixin
@@ -47,7 +42,6 @@ class Comment(db.Model):
     author = db.Column(db.String(30))
     body = db.Column(db.Text)
     from_admin = db.Column(db.Boolean, default=False)
-    reviewed = db.Column(db.Boolean, default=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     post = db.relationship('Post', back_populates='comments')
