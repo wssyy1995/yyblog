@@ -228,7 +228,15 @@ h3{
 
 
 
-
+#submit{
+    border-radius: 5px;
+    width: 60px;
+    height:30px;
+    background-color: rgba(85, 148, 206);
+    color: #f6f6f6;
+    margin-top:5px;
+    font-weight: bold;
+}
 
 
 
