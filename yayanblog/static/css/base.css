@@ -206,179 +206,13 @@ h3{
 
 
 
-/*gallery */
-
-#gallery_wrapper{
-    margin-top:10px;
-}
-
-.sub_bar{
-    height:40px;
-    box-sizing: border-box;
-    border-bottom:2px solid #7FB099;
-
-}
-
-.sub_bar h1{
-    float:left;
-    font-weight:normal;
-    margin-top:10px;
-    font-size:18px;
-    color:#3F584B;
-
-}
-
-#gallery_bar a{
-    float:right;
-    margin-top:12px;
-    text-decoration:none;
-    color:#6C7470;
-}
-
-#gallery_bar a:hover{
-    text-shadow:1px 1px 1px rgb(108, 116, 112,0.3);
-}
-
-
-
-
-#gallery_bar i{
-    color:#6C7470;
-    font-weight:bold;
-
-}
-
-#gallery_recommend{
-    position:relative;
-    margin:10px 10px;
-
-}
-
-
-#gallery_recommend_big{
-    position:relative;
-    float:left;
-}
-
-#recommend_slide{
-    position:relative;
-    width:520px;
-    height:240px;
-
-}
-
-.recommend_big_item{
-    position:absolute;
-}
-.recommend_big_item img{
-    border-radius:5px;
-}
-
-#slide_trigger{
-    position:absolute;
-    bottom:10px;
-    right:10px;
-
-}
-
-#slide_trigger a{
-    float:left;
-    margin:2px;
-    background-color:white;
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    border:1px solid #7FB099;
-}
-
-#slide_trigger a:hover{
-    background-color:rgb(102, 161, 134,0.6);
-
-}
-
-
-
-#gallery_recommend_small{
-    float:right;
-
-
-}
-
-.recommend_small_item{
-    float:left;
-    margin:0 5px;
-    width:167px;
-    height:240px;
-    overflow:hidden;
-    position:relative;
-
-}
-
-.recommend_small_item img{
-    border-radius:5px;
-}
-
-.small_image_shadow{
-    position:absolute;
-    bottom:0;
-    width:167px;
-    height:0;
-    transition:height 0.2s;
-    line-height:30px;
-    color:darkslategrey;
-    text-align: center;
-    background-color: rgb(255, 255, 255,0.7);
-}
-
-.recommend_small_item:hover .small_image_shadow{
-    height:30px;
-}
-
-
-
-
-
-/*posts */
-#post_wrapper{
-    margin-top:10px;
-
-}
-
-#post_list{
-    float:left;
-    width:100%;
-    margin:10px;
-
-}
-.post_preview_title{
-    text-decoration:none;
-    font-size:14px;
-    font-weight:bold;
-    color: rgb(68,119,166);
-}
-
-.post_preview_title:hover{
-    text-decoration:underline;
-}
-
-.post_preview_body{
-    background-color: #efefef;
-    margin:5px;
-    padding:5px;
-    color:dimgrey;
-    border-radius:5px;
-    text-indent:25px;
-}
-
-
-#pagination_mark a{
-    color:pink;
-}
-
 
 
 #pagination_mark a{
     color:rgb(68,119,166);
+    text-decoration:none;
+
+
 }
 
 #pagination_mark a:hover{
@@ -391,8 +225,6 @@ h3{
 .no_post_tip{
     text-align:center;
 }
-
-
 
 
 

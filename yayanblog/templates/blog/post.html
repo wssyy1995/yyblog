@@ -1,108 +1,130 @@
 {% extends 'base.html' %}
-{% from 'bootstrap/form.html' import render_form %}
-{% from 'bootstrap/pagination.html' import render_pagination %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/post_detail.css') }}">
+{% endblock %}
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <div class="page-header">
-        <h1>{{ post.title }}
-            <span>
+
+    <div class="w">
+        <div id="post_wrapper">
+            <div id="post_topbar">
+                <div id="post_title" class="post_detail_title">
+                    <h1><span class="fa fa-file-text"></span> {{ post.title }}</h1>
+                </div>
+
+                <div id="date" style="margin-left:20px;">
+                    {{ moment(post.timestamp).format('LLL') }}
+                </div>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('admin.edit_post', post_id=post.id) }}">Edit</a>
-                    <form class="inline" method="post"
+                    <div id="post_admin_option">
+                        <a id="edit_post" class="fa fa-pencil-square-o" href="{{ url_for('admin.edit_post', post_id=post.id) }}"></a>
+                        <span> | </span>
+                        <form style="display:inline" method="post"
                           action="{{ url_for('admin.delete_post', post_id=post.id, next=url_for('blog.index')) }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <button type="submit" onclick="return confirm('Are you sure?');">Delete
+                        <button id="delete_post" type="submit" onclick="return confirm('Are you sure to delete it?');"><span class="fa fa-trash"></span>
                         </button>
-                    </form>
-                {% endif %}
-            </span>
-        </h1>
+                        </form>
 
-        <small>
-            Date: {{ moment(post.timestamp).format('LL') }}
-        </small>
-    </div>
-    <div>
-        <div>
-            {{ post.body|safe }}
-            <hr>
-            <div class="comments" id="comments">
-                <h3>{{ pagination.total }} Comments
-                    <small>
-                        <a href="{{ url_for('.show_post', post_id=post.id, page=pagination.pages or 1) }}#comments">
-                            latest</a>
-                    </small>
-                </h3>
-                {% if comments %}
-                    <ul class="list-group">
-                        {% for comment in comments %}
-                            <li >
-                                <div >
-                                    <h5>
-                                        <span>
-                                            {% if comment.from_admin %}
-                                                {{ admin.name }}
-                                            {% else %}
-                                                {{ comment.author }}
-                                            {% endif %}
-                                        </span>
-                                        {% if comment.from_admin %}
-                                            <span>Admin</span>
-                                        {% endif %}
-
-                                    </h5>
-                                    <small data-toggle="tooltip" data-placement="top" data-delay="500"
-                                           data-timestamp="{{ comment.timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}">
-                                        {{ moment(comment.timestamp).fromNow() }}
-                                    </small>
-                                </div>
-                                <p>{{ comment.body }}</p>
-                                <div id="delete_button">
-                                    {% if current_user.is_authenticated %}
-                                        <form method="post"
-                                              action="{{ url_for('admin.delete_comment', comment_id=comment.id, next=request.full_path) }}">
-                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                                            <button type="submit"
-                                                    onclick="return confirm('Are you sure?');">Delete
-                                            </button>
-                                        </form>
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <div class="no_comment_tip"><h5>No comments.</h5></div>
+                    </div>
                 {% endif %}
+
+
             </div>
+            <div id="post_content">
+                {{ post.body|safe }}
+            </div>
+
+        </div>
+
+        <div id="comments_wrapper" class="post_detail_title" style="margin-left:50px;">
+            <h1 id="comments_topbar"><span class="fa fa-comments"></span>  Comments({{ pagination.total }})</h1>
             {% if comments %}
-                {{ render_pagination(pagination, fragment='#comments') }}
+                <div id="comment_list" class="clearfix" style="margin:0 80px 0 30px;">
+                    {% for comment in comments %}
+                        <div class="comment_cell clearfix">
+                            <div class="comment_cell_top clearfix">
+                                <div class="comment_author">{{ comment.author }}</div>
+                                <div class="comment_date">{{ moment(comment.timestamp).fromNow() }}</div>
+                            </div>
+                            <p class="comment_cell_content">
+                                {{ comment.body }}
+                            </p>
+                            <div class="clearfix">
+                                {% if current_user.is_authenticated %}
+                                    <form method="post"
+                                          action="{{ url_for('admin.delete_comment', comment_id=comment.id, next=request.full_path)+'#comments_wrapper' }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        <button id="comment_delete" type="submit"
+                                                onclick="return confirm('Are you sure to delete it?');"><span class="fa fa-trash"></span>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% if not loop.last %}
+                            <hr>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {#  手动渲染分页标志#}
+                {% if pagination.pages >1 %}
+                    <div id="pagination_switcher" style="font-size:12px;">
+                        <div style="text-align:center;" id="pagination_mark">
+                            {% if pagination.has_prev %}
+                                <a href="{{ url_for(request.endpoint,post_id=post.id,page=pagination.prev_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+                             {% else %}
+                                <i style="color:grey;" class="fa fa-chevron-circle-left fa-2x"></i>
+                            {% endif %}
+
+                            {% for p in range(pagination.pages) %}
+                                <a href="{{ url_for(request.endpoint,post_id=post.id,page=p+1)+'#comments_wrapper'}}" {% if pagination.page == p+1 %} style="font-weight:bolder;text-decoration: underline;" {% endif %}>{{ p+1 }}</a>
+                            {% endfor %}
+
+
+                            {% if pagination.has_next %}
+                                <a id="next_mark" href="{{ url_for(request.endpoint,post_id=post.id,page=pagination.next_num)+'#comments_wrapper'}}"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+                            {% else %}
+                                <i style="color:grey;" class="fa fa-chevron-circle-right fa-2x"></i>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+            {% else %}
+                <div class="no_comment_tip"><h5>No comments.</h5></div>
             {% endif %}
 
+            <div id="comment_form">
+            {% if current_user.is_authenticated %}
+                {# 当用户是admin时，则渲染  AdminCommentForm这个表单，hiddenfield可以用form.hidden_tag(）方法，并且这个方法会一并渲染CSRF令牌           #}
+                <form method="post">
+                    {{ form.hidden_tag() }}
 
-            <div id="comment-form">
-                {% if current_user.is_authenticated %}
-                    {#  {{ render_form(form, action=request.full_path) }}#}
-
-                    {# 当用户是admin时，则渲染  AdminCommentForm这个表单，hiddenfield可以用form.hidden_tag(）方法，并且这个方法会一并渲染CSRF令牌           #}
-                    <form method="post">
-                        {{ form.hidden_tag() }}
-                        {{ form.body.label }}<br>
-                        {{ form.body }}<br>
+                    <div id="comment_body">
+                        {{ form.body.label}}<br>
+                        {{ form.body}}<br>
                         {% if form.body.errors %}
                             {% for message in form.body.errors %}
                             <small class="error">{{ message }}</small><br>
                             {% endfor %}
                         {% endif %}
-                        {{ form.submit }}<br>
+                    </div>
+                    {{ form.comment_submit }}<br>
 
-                    </form>
-                {% else %}
-                    {#   当用户不是admin，则渲染CommentForm#}
-                    <form method="post">
-                    {{ form.csrf_token }}
+                </form>
+            {% else %}
+                {#   当用户不是admin，则渲染CommentForm#}
+                <form method="post">
+                {{ form.csrf_token }}
+                <div id="comment_form_author">
                     {{ form.author.label }}<br>
                     {{ form.author }}<br>
                     {% if form.author.errors %}
@@ -110,22 +132,32 @@
                         <small class="error">{{ message }}</small><br>
                         {% endfor %}
                     {% endif %}
-                    {{ form.body.label }}<br>
-                    {{ form.body }}<br>
+
+                </div>
+                <div id="comment_form_body">
+                    {{ form.body.label}}<br>
+                    {{ form.body}}<br>
                     {% if form.body.errors %}
                         {% for message in form.body.errors %}
                         <small class="error">{{ message }}</small><br>
                         {% endfor %}
                     {% endif %}
-                    {{ form.submit }}<br>
-                </form>
+                </div>
+                    {{ form.comment_submit}}
 
-                {% endif %}
 
-            </div>
 
+
+
+            </form>
+
+            {% endif %}
+
+        </div>
 
 
         </div>
+
     </div>
+
 {% endblock %}

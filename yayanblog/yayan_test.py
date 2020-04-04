@@ -25,13 +25,23 @@
 #
 #
 
-import time,datetime
-timestamp=time.time()
-print(timestamp)
-print(type(time.time()))
-timelocal=time.localtime(timestamp)
-print(timelocal)
-timelocal_s=time.strftime("%Y-%m-%d",time.localtime(timestamp))
-print(type(timelocal_s))
+
+# print(type(time.time()))
+# timelocal=time.localtime(timestamp)
+# print(timelocal)
+# timelocal_s=time.strftime("%Y-%m-%d",time.localtime(timestamp))
+# print(type(timelocal_s))
+#
+#
+# import time,datetime
+# timestamp=time.time()
+# print(timestamp)
+
+
+for i in range(9):
+    print(i)
+
+
+
 
 

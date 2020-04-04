@@ -36,12 +36,9 @@ class BaseConfig(object):
 
     YAYANBLOG_EMAIL = os.getenv('YAYANBLOG_EMAIL','18221091524@126.com')
     YAYANBLOG_POST_PER_PAGE = 5
-    YAYANBLOG_MANAGE_POST_PER_PAGE = 15
-    YAYANBLOG_COMMENT_PER_PAGE = 15
-    # ('theme name', 'display name')
-    YAYANBLOG_THEMES = {'perfect_blue': 'Perfect Blue', 'black_swan': 'Black Swan'}
+    YAYANBLOG_MANAGE_POST_PER_PAGE = 5
+    YAYANBLOG_COMMENT_PER_PAGE = 10
     YAYANBLOG_SLOW_QUERY_THRESHOLD = 1
-
     YAYANBLOG_UPLOAD_PATH = os.path.join(basedir, 'uploads')
     YAYANBLOG_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 

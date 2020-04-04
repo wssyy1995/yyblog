@@ -1,0 +1,33 @@
+{% macro pager(pagination) %}
+
+    <div id="pagination_switcher">
+        {# 手动渲染分页标志#}
+        <div style="text-align:center;" id="pagination_mark">
+            {# pagination.has_prev 是pagination分页对象的属性，如果存在上一页，返回True#}
+
+
+            {% if pagination.has_prev %}
+                {# url_for的参数，第一个参数为endpoint,第二个参数可以为变量）#}
+                {# url_for的变量参数可以是已经在route中定义的变量；比如 ： @app.route('/user/<username>') > url_for('profile', username='John Doe') 那么在调用url_for 的时候将变量的具体指传入url中#}
+                {# url_for的变量参数 如果是route中没有的未知参数，比如下面的page是在index的端点的route URL'/'中没有定义的，那么会作为查询参数，加在url末尾：url='/?page=pagination.prev_num'#}
+                <a href="{{ url_for(request.endpoint,page=pagination.prev_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+             {% else %}
+                <i style="color:grey;" class="fa fa-chevron-circle-left fa-2x"></i>
+            {% endif %}
+
+            {% for p in range(pagination.pages) %}
+                <a href="{{ url_for(request.endpoint,page=p+1)+'#post_wrapper'}}" {% if pagination.page == p+1 %} style="font-weight:bolder;text-decoration: underline;" {% endif %}>{{ p+1 }}</a>
+            {% endfor %}
+
+
+            {% if pagination.has_next %}
+                <a id="next_mark" href="{{ url_for(request.endpoint,page=pagination.next_num)+'#post_wrapper'}}"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+            {% else %}
+                <i style="color:grey;" class="fa fa-chevron-circle-right fa-2x"></i>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+{% endmacro %}

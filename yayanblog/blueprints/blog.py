@@ -43,6 +43,7 @@ def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     page = request.args.get('page', 1, type=int)
     per_page = current_app.config['YAYANBLOG_COMMENT_PER_PAGE']
+    # (多表)query.with_parent(一表的某个记录id) 去查询comment表里某个post的comment,相当于Post对象.comments（注意已经建立好了双向联系）
     pagination = Comment.query.with_parent(post).order_by(Comment.timestamp.asc()).paginate(
         page, per_page)
     comments = pagination.items

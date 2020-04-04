@@ -2,9 +2,9 @@
 
 from flask_ckeditor import CKEditorField
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, TextAreaField, ValidationError, HiddenField, \
+from wtforms import StringField, SubmitField, TextAreaField, HiddenField, \
     BooleanField, PasswordField
-from wtforms.validators import DataRequired, Length, Optional, URL
+from wtforms.validators import DataRequired, Length
 
 
 
@@ -31,7 +31,7 @@ class PostForm(FlaskForm):
 class CommentForm(FlaskForm):
     author = StringField('Your Name', validators=[DataRequired(), Length(1, 16)])
     body = TextAreaField('Comment', validators=[DataRequired()])
-    submit = SubmitField()
+    comment_submit = SubmitField(render_kw={'value':'Submit'})
 
 
 class AdminCommentForm(CommentForm):

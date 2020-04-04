@@ -181,8 +181,8 @@ def register_commands(app):
         click.echo('Done.')
 
     @app.cli.command()
-    @click.option('--post', default=100, help='Quantity of posts, default is 50.')
-    @click.option('--comment', default=100, help='Quantity of comments, default is 500.')
+    @click.option('--post', default=20, help='Quantity of posts, default is 50.')
+    @click.option('--comment', default=200, help='Quantity of comments, default is 500.')
     def forge(post, comment):
         """Generate fake data."""
         from yayanblog.fakes import fake_admin,fake_posts, fake_comments
