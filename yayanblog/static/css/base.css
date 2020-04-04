@@ -239,5 +239,21 @@ h3{
 }
 
 
+/*flash_message*/
+#flash_message{
+    display:inline-block;
+    margin:10px;
+    padding:5px 15px;
+    border-radius:5px;
+    line-height:30px;
+    background-color: rgba(81, 255, 62, 0.1);
+    color: #39b32c;
+    text-align:center;
+
+}
+#flash_message span{
+    color: #39b32c;
+}
+
 
 

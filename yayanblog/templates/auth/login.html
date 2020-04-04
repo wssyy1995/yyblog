@@ -1,42 +1,66 @@
 {% extends 'base.html' %}
 {% from 'bootstrap/form.html' import render_form %}
-
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/login.css')}}">
+{% endblock %}
 {% block title %}Login{% endblock %}
 
-{% block content %}
-    <div class="container h-100">
-        <div class="row h-100 page-header justify-content-center align-items-center">
-            <h1>Log in</h1>
-        </div>
-        <div>
-            {{ render_form(form)}}
-        </div>
-
-        </div>
-    </div>
-{% endblock %}
-
 {#{% block content %}#}
-{#    <form method="post">#}
-{#    {{ form.csrf_token }}#}
-{#    {{ form.username.label }}<br>#}
-{#    {{ form.username }}<br>#}
-{#    {% if form.username.errors %}#}
-{#        {% for message in form.username.errors %}#}
-{#        <small class="error">{{ message }}</small><br>#}
-{#        {% endfor %}#}
-{#    {% endif %}#}
-{#    {{ form.password.label }}<br>#}
-{#    {{ form.password }}<br>#}
-{#    {% if form.password.errors %}#}
-{#        {% for message in form.password.errors %}#}
-{#        <small class="error">{{ message }}</small><br>#}
-{#        {% endfor %}#}
-{#    {% endif %}#}
-{#    {{ form.remember }}{{ form.remember.label }}<br>#}
-{#    {{ form.submit}}<br>#}
+{#    <div >#}
+{#        <div class="row h-100 page-header justify-content-center align-items-center">#}
+{#            <h1>Log in</h1>#}
+{#        </div>#}
+{#        <div>#}
+{#            {{ render_form(form)}}#}
+{#        </div>#}
 {##}
+{#        </div>#}
+{#    </div>#}
 {#{% endblock %}#}
+
+{% block content %}
+
+        <form id="login_form" method="post">
+            <div id="login_form_border">
+                <div id="login_username">
+                {{ form.csrf_token }}
+                {{ form.username.label }}<br>
+                {{ form.username }}<br>
+                {% if form.username.errors %}
+                {% for message in form.username.errors %}
+                 <small class="error">{{ message }}</small>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <div id="login_password">
+                    {{ form.password.label }}<br>
+                    {{ form.password }}<br>
+                    {% if form.password.errors %}
+                    {% for message in form.password.errors %}
+                    <small class="error">{{ message }}</small>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.remember }}{{ form.remember.label }}
+                </div>
+                <div>
+                    {{ form.submit}}
+
+                </div>
+
+            </div>
+
+
+
+
+
+        </form>
+
+
+
+{% endblock %}
     {#当点击submit时，表单发送http post请求（未指定url则向当前url），发送表单数据#}
     {# WTForms验证机制会对表单实例调用validate()方法，逐个对字段调用字段实例化时定义的validator  #}
     {#如果某个字段数据验证失败，就把错误消息存储到这个字段的errors属性中，返回的是一个数组#}

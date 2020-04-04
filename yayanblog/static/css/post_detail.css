@@ -104,17 +104,21 @@
     border-radius:5px;
 }
 
-#comment_submit {
-    float:left;
-    border-radius: 5px;
-    width: 60px;
-    height:30px;
-    background-color: rgba(85, 148, 206);
-    color: #f6f6f6git
-    font-weight: bold;
+
+#comment_form label{
+    color: #939393;
+    font-weight:bold;
+    font-size:14px;
 }
 
 
-label{
-    font-weight:bold;
+#comment_submit{
+    float:left;
+    border-radius:5px;
+    width: 60px;
+    height:30px;
+    background-color: rgba(85, 148, 206);
+    color: #f6f6f6;
+
+
 }

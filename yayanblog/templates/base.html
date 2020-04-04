@@ -98,13 +98,16 @@
             （2）在调用get_flashed_messages方法时，将with_categories参数设为True，会将消息迭代为一个类似（消息类别，消息内容）的元祖
             （3）message[0]就是消息类别，message[1]就是消息内容
     #}
-
-    {% for message in get_flashed_messages(with_categories=True) %}
-        <div class="alert alert-{{ message[0] }}" role="alert">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message[1] }}
+    <div style="text-align:center;">
+        {% for message in get_flashed_messages() %}
+        <div id="flash_message" >
+            <button type="button" onclick="document.getElementById('flash_message').style.display='none'"><span class="fa fa-remove"></span></button>
+            {{ message }}
         </div>
+
     {% endfor %}
+    </div>
+
     {% block content %}{% endblock content %}
     {% block footer %}
         <footer>

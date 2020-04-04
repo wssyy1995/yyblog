@@ -64,7 +64,7 @@ def show_post(post_id):
             from_admin=from_admin, post=post)
         db.session.add(comment)
         db.session.commit()
-        flash('Comment published.', 'success')
+        flash('Comment published!', 'success')
         return redirect(url_for('.show_post', post_id=post_id))
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
 

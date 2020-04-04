@@ -111,7 +111,7 @@
                 <form method="post">
                     {{ form.hidden_tag() }}
                     <div id="comment_body">
-                        {{ form.body.label}}:<br>
+                        {{ form.body.label}}<br>
                         {{ form.body}}<br>
                         {% if form.body.errors %}
                             {% for message in form.body.errors %}
@@ -127,7 +127,7 @@
                 <form method="post">
                 {{ form.csrf_token }}
                 <div id="comment_form_author">
-                    {{ form.author.label }}:<br>
+                    {{ form.author.label }}<br>
                     {{ form.author }}<br>
                     {% if form.author.errors %}
                         {% for message in form.author.errors %}
