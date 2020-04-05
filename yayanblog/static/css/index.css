@@ -62,19 +62,95 @@
 
 .recommend_big_item{
     position:absolute;
+    transition:0.3s;
 }
+
+/*css动画
+1.用keyframes 创建动画，不同浏览器需要加不同的前缀+动画名称
+2.为元素绑定动画
+
+*/
+@keyframes ch_pic_animation
+{
+0%   {opacity:0.1;border-radius:50px;}
+100% {opacity:1;border-radius:5px;}
+}
+
+@-moz-keyframes ch_pic_animation /* Firefox */
+{
+0%   {opacity:0.1;border-radius:50px;}
+100% {opacity:1;border-radius:5px;}
+}
+
+@-webkit-keyframes ch_pic_animation /* Safari 和 Chrome */
+{
+0%   {opacity:0.1;border-radius:50px;}
+100% {opacity:1;border-radius:5px;}
+}
+/*2.为元素绑定动画：
+浏览器前缀-animation:animation-name，duration,(其他属性)
+(每个浏览器前缀都要绑定一次)
+
+*/
+#ch_pic_animation{
+    -webkit-animation:ch_pic_animation 2s;
+    -moz-animation: ch_pic_animation 2s;
+    animation:ch_pic_animation 2s;
+
+}
+
+.active_pic img{
+    -webkit-animation: ch_pic_animation 2s;
+    -moz-animation: ch_pic_animation 2s;
+    animation: ch_pic_animation 2s;
+}
+
+
+
+/*轮播图大图*/
+
 .recommend_big_item img{
     border-radius:5px;
 }
+
+/*为了解决动画中opacity导致最后一张图总是透在当前图后面，为4张图设置了层级*/
+.recommend_big_item:nth-child(1){
+    z-index:104;
+}
+
+.recommend_big_item:nth-child(2){
+    z-index:103;
+}
+.recommend_big_item:nth-child(3){
+    z-index:102;
+}
+.recommend_big_item:nth-child(4){
+    z-index:101;
+}
+
+
+
+/*为了覆盖上面的css，所以.active_pic 前添加id选择器来增大选择器分值去覆盖上面z-index*/
+#recommend_slide .active_pic{
+    z-index: 105;
+
+}
+
+
+
+/*
+4个小点
+*/
 
 #slide_trigger{
     position:absolute;
     bottom:10px;
     right:10px;
+    z-index: 120;
 
 }
 
-#slide_trigger a{
+.dot{
     float:left;
     margin:2px;
     background-color:white;
@@ -84,12 +160,13 @@
     border:1px solid #7FB099;
 }
 
-#slide_trigger #first_trigger{
+.active_dot{
     background-color:green;
-
-
 }
 
+
+
+/*轮播图两边上一张，下一张按钮*/
 #left_trigger,#right_trigger{
     width:30px;
     line-height:30px;
@@ -121,11 +198,6 @@
 #gallery_recommend_big:hover #left_trigger,#gallery_recommend_big:hover #right_trigger{
     display:block;
 }
-
-
-
-
-
 
 
 
@@ -229,3 +301,4 @@
 .no_post_tip{
     text-align:center;
 }
+
