@@ -71,8 +71,8 @@ function autochange(){
 
 }
 
-// 创建一个定时器开启计时，传入轮播图函数，每2秒就会执行这个函数
-var auto_picture=setInterval(autochange, 3000);
+// 创建一个定时器开启计时，传入轮播图函数，每4秒就会执行这个函数
+var auto_picture=setInterval(autochange, 4000);
 var gallery_recommend_big=document.getElementById('gallery_recommend_big');
 
 //鼠标移入的时候清除定时器
@@ -86,7 +86,7 @@ gallery_recommend_big.onmouseover=function(){
 //鼠标移出的时候重启定时器
 gallery_recommend_big.onmouseout=function(){
     console.log('timer restart');
-    auto_picture=setInterval(autochange, 3000);
+    auto_picture=setInterval(autochange, 4000);
 
 };
 
