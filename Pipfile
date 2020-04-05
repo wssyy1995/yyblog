@@ -12,7 +12,6 @@ faker = "*"
 [packages]
 flask = "*"
 flask-ckeditor = "*"
-flask-mail = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
 flask-moment = "*"

@@ -34,7 +34,7 @@ def create_app(config_name=None):
     # 创建程序实例后，使用app.config.from_object ，通过传入config_name作为key值，加载存储在config字典的配置类
     app.config.from_object(config[config_name])
 
-    register_logging(app)
+    # register_logging(app)
     register_extensions(app)
     register_blueprints(app)
     register_commands(app)
@@ -45,39 +45,25 @@ def create_app(config_name=None):
     return app
 
 
-def register_logging(app):
-    class RequestFormatter(logging.Formatter):
-
-        def format(self, record):
-            record.url = request.url
-            record.remote_addr = request.remote_addr
-            return super(RequestFormatter, self).format(record)
-
-    request_formatter = RequestFormatter(
-        '[%(asctime)s] %(remote_addr)s requested %(url)s\n'
-        '%(levelname)s in %(module)s: %(message)s'
-    )
-
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/yayanblog.log'),
-                                       maxBytes=10 * 1024 * 1024, backupCount=10)
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.INFO)
-
-    mail_handler = SMTPHandler(
-        mailhost=app.config['MAIL_SERVER'],
-        fromaddr=app.config['MAIL_USERNAME'],
-        toaddrs=['ADMIN_EMAIL'],
-        subject='yayanblog Application Error',
-        credentials=(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']))
-    mail_handler.setLevel(logging.ERROR)
-    mail_handler.setFormatter(request_formatter)
-
-    if not app.debug:
-        app.logger.addHandler(mail_handler)
-        app.logger.addHandler(file_handler)
-
+# def register_logging(app):
+#     class RequestFormatter(logging.Formatter):
+#
+#         def format(self, record):
+#             record.url = request.url
+#             record.remote_addr = request.remote_addr
+#             return super(RequestFormatter, self).format(record)
+#
+#     request_formatter = RequestFormatter(
+#         '[%(asctime)s] %(remote_addr)s requested %(url)s\n'
+#         '%(levelname)s in %(module)s: %(message)s'
+#     )
+#
+#     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+#
+#     file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/yayanblog.log'),
+#                                        maxBytes=10 * 1024 * 1024, backupCount=10)
+#     file_handler.setFormatter(formatter)
+#     file_handler.setLevel(logging.INFO)
 
 
 # 初始化拓展，大部分拓展提供了init_app()方法来支持分离拓展的实例化和初始化操作；
@@ -117,6 +103,7 @@ def register_shell_context(app):
     def make_shell_context():
         return dict(db=db, Admin=Admin, Post=Post,Comment=Comment)
 
+
 # app.context_processor 模板上下文处理器下的所有函数，在render_template任意一个html页面时，都会自动执行。
 # 并且函数的返回值必须是个dict，dict的key会被当做变量返回到模板中，值为value
 # 可以用来定义一个用于所有页面的全局变量
@@ -127,6 +114,7 @@ def register_template_context(app):
         search_form=SearchForm()
         return dict(
             admin=admin,search_form=search_form)
+
 
 # 错误处理函数：将errorhandler注册到蓝本实例上，则会注册一个全局的错误处理器
 def register_errors(app):
@@ -192,8 +180,6 @@ def register_commands(app):
 
         # click.echo('Generating the administrator...')
         # fake_admin()
-
-
 
 
         click.echo('Generating %d posts...' % post)

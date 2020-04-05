@@ -373,6 +373,15 @@
             ],
             "version": "==1.11.0"
         },
+
+        "watchdog": {
+            "hashes": [
+                "sha256:7e65882adb7746039b6f3876ee174952f8eaaa34491ba34333ddf1fe35de4162"
+            ],
+            "index": "pypi",
+            "version": "==0.8.3"
+        },
+
         "text-unidecode": {
             "hashes": [
                 "sha256:5a1375bb2ba7968740508ae38d92e1f889a0832913cb1c447d5e2046061a396d",
@@ -380,12 +389,5 @@
             ],
             "version": "==1.2"
         },
-        "watchdog": {
-            "hashes": [
-                "sha256:7e65882adb7746039b6f3876ee174952f8eaaa34491ba34333ddf1fe35de4162"
-            ],
-            "index": "pypi",
-            "version": "==0.8.3"
-        }
     }
 }

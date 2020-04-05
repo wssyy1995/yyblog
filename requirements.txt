@@ -24,7 +24,7 @@ six==1.11.0
 sqlalchemy==1.2.10
 werkzeug==0.14.1
 wtforms==2.2.1
-# dev
+# dev need add
 argh==0.26.2
 configparser==3.5.0 ; python_version < '3.2'
 coverage==4.5.1

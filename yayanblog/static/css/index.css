@@ -84,6 +84,53 @@
     border:1px solid #7FB099;
 }
 
+#slide_trigger #first_trigger{
+    background-color:green;
+
+
+}
+
+#left_trigger,#right_trigger{
+    width:30px;
+    line-height:30px;
+    background-color: rgb(0, 0, 0,0.5);
+    color: #dbdbdb;
+    position:absolute;
+    z-index:120;
+    display:none;
+
+}
+
+#left_trigger{
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    left:0;
+    top:100px;
+
+
+}
+
+#right_trigger{
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    right:0;
+    top:100px;
+
+}
+
+#gallery_recommend_big:hover #left_trigger,#gallery_recommend_big:hover #right_trigger{
+    display:block;
+}
+
+
+
+
+
+
+
+
+
+
 #slide_trigger a:hover{
     background-color:rgb(102, 161, 134,0.6);
 

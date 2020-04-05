@@ -36,7 +36,7 @@ ex:<a href="javascript:alert('this is a link to github')">Yayan Su</a>
 3.编写入head 中<script>标签：立即执行
 
 4.（最常使用）编写入外部js文件，在head 中用<script>标签引入（css使用link引入）
-    <script type="text/javascript" src="{{ url_for('static',filename='js/yyjs.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/yyjsnote.js')}}"></script>
 5.文档加载：js如果有用到文档中的元素，则需要在文档加载完毕后那个元素才能执行；所以一般script文件放在页面尾部
 
 
@@ -395,10 +395,18 @@ DOM：对HTML中所有内容作为对象进行操作
     浏览器已经提供了文档节点对象-document，这个对象是window属性，可以在页面中直接使用
 
 
-二.
+二.DOM操作
+1.查找元素节点
+  -document.getElementById:单个元素对象
+  -getElementsByTagName/getElementsByName :返回一个类数组对象，将查询到的元素放入这个类数组中（即使查询到一个，也会放在类数组中）
+2.读取元素属性(元素的属性可以在控制台element> properties查看)：
+    -元素.属性名 ; 元素.innerHtml ;注意：元素.class不能采用这种方式，需要用元素.className
+    -元素.属性.属性 ;元素.style.color
 
+3.
 
 三.事件:在事件对应的属性中，设置一些js代码；当事件触发，代码会执行；
+
 1.为对应属性的对应事件绑定处理函数来响应事件
     -获取对象
         var logo=document.getElementById('banner_logo')
@@ -416,3 +424,55 @@ DOM：对HTML中所有内容作为对象进行操作
 
  */
 
+var logo=document.getElementById("banner_logo");
+var banner_title = document.getElementById("banner_title");
+
+
+// setInterval(function(){ alert("Hello"); }, 3000);
+// setInterval(function(){
+//     banner_title.style.border = '1px solid red'; }, 2000);
+//
+
+
+/*
+2.事件
+(1)onload:在整个页面或者图片加载完成之后才触发
+    window.onload=function(){
+        alert('the page finish load')
+    }
+
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+/*
+四.定时器
+
+1.setInternal定时调用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */

@@ -12,10 +12,6 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        print('you are already logged in ')
-        return redirect(url_for('blog.index'))
-
     form = LoginForm()
 
     if form.validate_on_submit():
