@@ -73,29 +73,16 @@
     border-radius:5px;
 }
 
-/*为了解决动画中opacity导致最后一张图总是透在当前图后面，为4张图设置了层级*/
-.recommend_big_item:nth-child(1){
-    z-index:104;
-    opacity: 0.2;
-}
-
-.recommend_big_item:nth-child(2){
-    z-index:103;
-    opacity: 0.2;
-}
-.recommend_big_item:nth-child(3){
-    z-index:102;
-    opacity: 0.2;
-}
-.recommend_big_item:nth-child(4){
-    z-index:101;
-    opacity: 0.2;
+/*为了解决动画中opacity导致最后一张图总是透在当前图后面，为4张图设置了很低透明度*/
+.recommend_big_item{
+    z-index:100;
+    opacity:0.1;
 }
 
 
 
 /*为了覆盖上面的css，所以.active_pic 前添加id选择器来增大选择器分值去覆盖上面z-index*/
-#recommend_slide .active_pic{
+#recommend_slide .active_pic {
     z-index: 105;
     opacity:1;
 
@@ -107,19 +94,19 @@
 */
 @keyframes ch_pic_animation
 {
-0%   {opacity:0.2;border-radius:30px;}
+0%   {opacity:0.3;border-radius:30px;}
 100% {opacity:1;border-radius:5px;}
 }
 
 @-moz-keyframes ch_pic_animation /* Firefox */
 {
-0%   {opacity:0.2;border-radius:30px;}
+0%   {opacity:0.3;border-radius:30px;}
 100% {opacity:1;border-radius:5px;}
 }
 
 @-webkit-keyframes ch_pic_animation /* Safari 和 Chrome */
 {
-0%   {opacity:0.2;border-radius:30px;}
+0%   {opacity:0.3;border-radius:30px;}
 100% {opacity:1;border-radius:5px;}
 }
 
