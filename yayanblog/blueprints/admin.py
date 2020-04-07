@@ -34,14 +34,6 @@ def settings():
     return render_template('admin/settings.html', form=form)
 
 
-@admin_bp.route('/post/manage')
-@login_required
-def manage_post():
-    page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['YAYANBLOG_MANAGE_POST_PER_PAGE'])
-    posts = pagination.items
-    return render_template('admin/manage_post.html', page=page, pagination=pagination, posts=posts)
 
 
 @admin_bp.route('/post/new', methods=['GET', 'POST'])
@@ -100,14 +92,6 @@ def set_comment(post_id):
     return redirect_back()
 
 
-@admin_bp.route('/comment/manage')
-@login_required
-def manage_comment():
-    page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['YAYANBLOG_COMMENT_PER_PAGE']
-    pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(page, per_page=per_page)
-    comments = pagination.items
-    return render_template('admin/manage_comment.html', comments=comments, pagination=pagination)
 
 
 

@@ -94,41 +94,6 @@ h3{
     margin:0 10px;
 }
 
-/*Manage list浮窗*/
-/*将父元素开启定位，子元素才可以参照父元素进行绝对定位*/
-#manage{
-    position: relative;
-}
-#manage_list{
-    width:150px;
-    background-color:rgb(102, 161, 134);
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    position: absolute;
-    top:30px;
-    left:-20px;
-    /*给浮窗设置一个很大的z-index,这样就会在float层面也是最上层的*/
-    z-index:999;
-    /*浮窗默认不显示,方法一*/
-    /*display:none;*/
-    /*浮窗默认不显示,方法二，这个方法是为了配合transition添加过渡效果*/
-    height:0;
-    overflow:hidden;
-    /*transition:当这个属性发生变化时，就会用3s来完成*/
-    transition:height 0.3s;
-
-}
-#manage_list li{
-    float:none;
-}
-
-/**/
-#manage:hover #manage_list{
-    /*display:block;*/
-    height:80px;
-
-
-}
 
 /*主页banner和搜索栏*/
 
