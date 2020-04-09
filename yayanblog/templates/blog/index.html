@@ -78,7 +78,7 @@
                 {% for post in posts %}
                     <div class="post_cell" style="margin:10px 0;">
                         <div class="post_info clearfix">
-                            <h3><a class="post_preview_title" href="{{ url_for('.show_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                            <h3><a class="post_preview_title" href="{{ url_for('.show_post', post_id=post.id) }}" target="_blank">{{ post.title }}</a></h3>
 
                             {#     striptags就是去掉html标签，truncate就是规定文本显示的长度
                              例如： truncate(s, length=255, killwords=False, end='...')#}

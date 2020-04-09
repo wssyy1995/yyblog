@@ -25,7 +25,8 @@
 
                 <li><a {% if request.endpoint=='blog.index' %}class="active"{% endif %} href="{{ url_for('blog.index')}}">Home</a></li>
                 <li>|</li>
-                <li><a href="{{ url_for('admin.not_open') }}">Gallery</a></li>
+{#                <li><a href="{{ url_for('admin.not_open') }}">Gallery</a></li>#}
+                <li><a href="javascript:confirm('are you sure....input your name');">Gallery</a></li>
 
             </ul>
 
