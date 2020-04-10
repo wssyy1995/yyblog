@@ -19,8 +19,8 @@ class BaseTestCase(unittest.TestCase):
         self.runner = app.test_cli_runner()
 
         db.create_all()
-        user = Admin(name='Yayan', username='yayan', about='I am test', blog_title='Testlog', blog_sub_title='a test')
-        user.set_password('123')
+        user = Admin(name='yayan', username='yayan', about='I am test', blog_title='Testlog', blog_sub_title='a test')
+        user.set_password('1234')
         db.session.add(user)
         db.session.commit()
 
