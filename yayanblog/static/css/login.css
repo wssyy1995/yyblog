@@ -22,12 +22,10 @@
     height:25px;
     border:1px solid #a8a8a8;
     border-radius:2px;
-}
-
-#username,#password{
     font-size:16px;
     color: #383838;
 }
+
 
 #login_username{
     margin-top:20px;
