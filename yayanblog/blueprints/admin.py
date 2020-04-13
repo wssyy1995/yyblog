@@ -5,8 +5,6 @@ import os
 from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, send_from_directory
 from flask_login import login_required, current_user
 from flask_ckeditor import upload_success, upload_fail
-
-
 from yayanblog.extensions import db
 from yayanblog.forms import SettingForm, PostForm
 from yayanblog.models import Post,Comment
@@ -67,7 +65,9 @@ def edit_post(post_id):
     form.body.data = post.body
     return render_template('admin/edit_post.html', form=form)
 
-
+# delete操作不用get的原因：
+#   get的操作只需要点击附带了链接的任何元素或者浏览器输入url便可以执行（虽然login_required会验证管理员的session，但用户可以通过上传具有delete url指向图片，管理员登录状态点击后便会权力执行
+# delete操作）
 @admin_bp.route('/post/<int:post_id>/delete', methods=['POST'])
 @login_required
 def delete_post(post_id):
@@ -75,20 +75,6 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Post deleted.', 'success')
-    return redirect_back()
-
-
-@admin_bp.route('/post/<int:post_id>/set-comment', methods=['POST'])
-@login_required
-def set_comment(post_id):
-    post = Post.query.get_or_404(post_id)
-    if post.can_comment:
-        post.can_comment = False
-        flash('Comment disabled.', 'success')
-    else:
-        post.can_comment = True
-        flash('Comment enabled.', 'success')
-    db.session.commit()
     return redirect_back()
 
 

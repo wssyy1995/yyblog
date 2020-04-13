@@ -106,7 +106,7 @@ def register_shell_context(app):
 
 # app.context_processor 模板上下文处理器下的所有函数，在render_template任意一个html页面时，都会自动执行。
 # 并且函数的返回值必须是个dict，dict的key会被当做变量返回到模板中，值为value
-# 可以用来定义一个用于所有页面的全局变量
+# 可以用来定义一个用于所有页面的全局变量(即如果很多视图函数render_template时都要传的那个变量)
 def register_template_context(app):
     @app.context_processor
     def make_template_context():

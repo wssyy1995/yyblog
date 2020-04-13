@@ -65,7 +65,6 @@ function autochange(){
         if(c_index==4){
             c_index=0;
             }
-        console.log(c_index);
         change_picture(c_index);
         change_dot(c_index);
 
